@@ -3,7 +3,7 @@
 const LEFT_ARROW = 37;
 const RIGHT_ARROW = 39;
 
-const SCREENS = [
+const screens = [
   `intro`,
   `greeting`,
   `rules`,
@@ -20,66 +20,74 @@ const selectSlide = (element) => {
   mainElement.appendChild(element.cloneNode(true));
 };
 
-let sortedScreens = [];
-const sortScreens = () => {
-  SCREENS.forEach((el) => {
-    sortedScreens.push(document.querySelector(`#` + el).content);
+const sortScreens = function (array) {
+  let newArray = [];
+  array.map((el) => {
+    newArray.push(document.querySelector(`#` + el).content);
   });
+  return newArray;
+};
+
+const onLeftArrowClick = () => {
+  select(current - 1, sortedScreens);
+};
+
+const onRightArrowClick = () => {
+  select(current + 1, sortedScreens);
+};
+
+const setArrowsCallback = (array) => {
+  array[0].addEventListener(`click`, onLeftArrowClick);
+  array[1].addEventListener(`click`, onRightArrowClick);
 };
 
 const insertArrows = () => {
-  let arrows = document.createElement(`div`);
-  arrows.classList.add(`arrows__wrap`);
-  arrows.innerHTML = `<style>\
-    .arrows__wrap {\
-      position: absolute;\
-      top: 95px;\
-      left: 50%;\
-      margin-left: -56px;\
-    }\
-    .arrows__btn {\
-      background: none;\
-      border: 2px solid black;\
-      padding: 5px 20px;\
-    }\
-  </style>`;
-  let btnLeft = document.createElement(`button`);
-  btnLeft.classList.add(`arrows__btn`);
-  btnLeft.innerHTML = `<-`;
-  let btnRight = document.createElement(`button`);
-  btnRight.classList.add(`arrows__btn`);
-  btnRight.innerHTML = `->`;
-  arrows.appendChild(btnLeft);
-  arrows.appendChild(btnRight);
-  document.body.appendChild(arrows);
-  btnLeft.addEventListener(`click`, () => {
-    select(current - 1);
-  });
-  btnRight.addEventListener(`click`, () => {
-    select(current + 1);
-  });
+  document.body.insertAdjacentHTML(`beforeEnd`, `<div class="arrows__wrap">
+  <style>
+    .arrows__wrap {
+      position: absolute;
+      top: 95px;
+      left: 50%;
+      margin-left: -56px;
+    }
+    .arrows__btn {
+      background: none;
+      border: 2px solid black;
+      padding: 5px 20px;
+    }
+  </style>
+  <button class="arrows__btn"><-</button>
+  <button class="arrows__btn">-></button>
+</div>`);
+  let arrows = Array.prototype.slice.call(document.querySelectorAll(`.arrows__btn`));
+  setArrowsCallback(arrows);
 };
 
-sortScreens();
+const sortedScreens = sortScreens(screens);
 insertArrows();
 
 let current = 0;
-const select = (index) => {
-  index = index < 0 ? sortedScreens.length - 1 : index;
-  index = index >= sortedScreens.length ? 0 : index;
+const select = (index, array) => {
   current = index;
+  if (index >= array.length) {
+    current = array.length - 1;
+  }
+  if (index < 0) {
+    current = 0;
+  }
   selectSlide(sortedScreens[current]);
 };
 
-document.addEventListener(`keydown`, (evt) => {
+const onKeyDown = (evt) => {
   switch (evt.keyCode) {
     case LEFT_ARROW:
-      select(current - 1);
+      select(current - 1, sortedScreens);
       break;
     case RIGHT_ARROW:
-      select(current + 1);
+      select(current + 1, sortedScreens);
       break;
   }
-});
+};
 
-select(0);
+document.addEventListener(`keydown`, onKeyDown);
+select(0, sortedScreens);

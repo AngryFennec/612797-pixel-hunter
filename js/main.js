@@ -13,8 +13,6 @@ const screens = [
   `stats`
 ];
 
-const mainElement = document.querySelector(`#main`);
-
 const selectSlide = (element) => {
   mainElement.innerHTML = ``;
   mainElement.appendChild(element.cloneNode(true));
@@ -63,16 +61,12 @@ const insertArrows = () => {
   setArrowsCallback(arrows);
 };
 
-const sortedScreens = sortScreens(screens);
-insertArrows();
-
-let current = 0;
 const select = (index, array) => {
   current = index;
   if (index >= array.length) {
     current = array.length - 1;
   }
-  if (index < 0) {
+  else if (index < 0) {
     current = 0;
   }
   selectSlide(sortedScreens[current]);
@@ -88,6 +82,10 @@ const onKeyDown = (evt) => {
       break;
   }
 };
-
+//точка входа
+const mainElement = document.querySelector(`#main`);
+const sortedScreens = sortScreens(screens);
+insertArrows();
+let current = 0;
 document.addEventListener(`keydown`, onKeyDown);
 select(0, sortedScreens);

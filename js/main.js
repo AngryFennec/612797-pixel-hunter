@@ -65,8 +65,7 @@ const select = (index, array) => {
   current = index;
   if (index >= array.length) {
     current = array.length - 1;
-  }
-  else if (index < 0) {
+  } else if (index < 0) {
     current = 0;
   }
   selectSlide(sortedScreens[current]);
@@ -82,7 +81,7 @@ const onKeyDown = (evt) => {
       break;
   }
 };
-//точка входа
+// точка входа
 const mainElement = document.querySelector(`#main`);
 const sortedScreens = sortScreens(screens);
 insertArrows();

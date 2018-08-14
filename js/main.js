@@ -34,11 +34,6 @@ const onRightArrowClick = () => {
   select(current + 1, sortedScreens);
 };
 
-const setArrowsCallback = (array) => {
-  array[0].addEventListener(`click`, onLeftArrowClick);
-  array[1].addEventListener(`click`, onRightArrowClick);
-};
-
 const insertArrows = () => {
   document.body.insertAdjacentHTML(`beforeEnd`, `<div class="arrows__wrap">
   <style>
@@ -57,8 +52,6 @@ const insertArrows = () => {
   <button class="arrows__btn"><-</button>
   <button class="arrows__btn">-></button>
 </div>`);
-  let arrows = Array.prototype.slice.call(document.querySelectorAll(`.arrows__btn`));
-  setArrowsCallback(arrows);
 };
 
 const select = (index, array) => {
@@ -85,6 +78,11 @@ const onKeyDown = (evt) => {
 const mainElement = document.querySelector(`#main`);
 const sortedScreens = sortScreens(screens);
 insertArrows();
+const arrows = document.querySelectorAll(`.arrows__btn`);
+const leftArrow = arrows[0];
+const rightArrow = arrows[arrows.length - 1];
+leftArrow.addEventListener(`click`, onLeftArrowClick);
+rightArrow.addEventListener(`click`, onRightArrowClick);
 let current = 0;
 document.addEventListener(`keydown`, onKeyDown);
 select(0, sortedScreens);

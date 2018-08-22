@@ -1,5 +1,6 @@
-const gameOneElement = getElementFromTemplate(`<template id="game-1">
-  <header class="header">
+import {render, changeScreen} from './util.js';
+
+const gameOneElement = render(`<header class="header">
     <button class="back">
       <span class="visually-hidden">Вернуться к началу</span>
       <svg class="icon" width="45" height="45" viewBox="0 0 45 45" fill="#000000">
@@ -54,6 +55,11 @@ const gameOneElement = getElementFromTemplate(`<template id="game-1">
       <li class="stats__result stats__result--unknown"></li>
       <li class="stats__result stats__result--unknown"></li>
     </ul>
-  </section>
-</template>`);
+  </section>`);
+
+  const QUESTION_NUMBERS = 2;
+
+  const gameOptions = gameOneElement.querySelectorAll('.game__answer input[type="radio"]');
+  console.log(gameOptions);
+
 export default gameOneElement;

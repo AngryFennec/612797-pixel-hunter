@@ -1,4 +1,6 @@
-const gameThreeElement = getElementFromTemplate(`<template id="game-3">
+import {render, changeScreen} from './util.js';
+
+const gameThreeElement = render(`<template id="game-3">
   <header class="header">
     <button class="back">
       <span class="visually-hidden">Вернуться к началу</span>

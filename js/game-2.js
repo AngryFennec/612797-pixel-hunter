@@ -1,4 +1,6 @@
-const gameTwoElement = getElementFromTemplate(`<template id="game-2">
+import {render, changeScreen} from './util.js';
+
+const gameTwoElement = render(`<template id="game-2">
   <header class="header">
     <button class="back">
       <span class="visually-hidden">Вернуться к началу</span>

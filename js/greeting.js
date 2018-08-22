@@ -1,5 +1,7 @@
-const greetingElement = getElementFromTemplate(`<template id="greeting">
-  <section class="greeting central--blur">
+import {render, changeScreen} from './util.js';
+import rulesElement from './rules.js';
+
+const greetingElement = render(`<section class="greeting central--blur">
     <img class="greeting__logo" src="img/logo_ph-big.svg" width="201" height="89" alt="Pixel Hunter">
     <div class="greeting__asterisk asterisk"><span class="visually-hidden">Я просто красивая звёздочка</span>*</div>
     <div class="greeting__challenge">
@@ -18,6 +20,9 @@ const greetingElement = getElementFromTemplate(`<template id="greeting">
         <use xlink:href="img/sprite.svg#arrow-right"></use>
       </svg>
     </button>
-  </section>
-</template>`);
+  </section>`);
+
+const toRulesBtn = greetingElement.querySelector(`.greeting__continue`);
+toRulesBtn.addEventListener(`click`, () => changeScreen(rulesElement));
+
 export default greetingElement;

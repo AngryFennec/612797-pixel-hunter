@@ -1,5 +1,7 @@
-const rulesElement = getElementFromTemplate(`<template id="rules">
-  <header class="header">
+import {render, changeScreen} from './util.js';
+import gameOneElement from './game-1.js';
+
+const rulesElement = render(`<header class="header">
     <button class="back">
       <span class="visually-hidden">Вернуться к началу</span>
       <svg class="icon" width="45" height="45" viewBox="0 0 45 45" fill="#000000">
@@ -25,6 +27,16 @@ const rulesElement = getElementFromTemplate(`<template id="rules">
       <input class="rules__input" type="text" placeholder="Ваше Имя">
       <button class="rules__button  continue" type="submit" disabled>Go!</button>
     </form>
-  </section>
-</template>`);
+  </section>`);
+const rulesForm = rulesElement.querySelector(`.rules__form`);
+const rulesInput = rulesElement.querySelector(`.rules__input`);
+const rulesBtn = rulesForm.querySelector(`.rules__button`);
+rulesBtn.disabled = true;
+rulesInput.addEventListener(`input`, () => {
+  if (rulesInput.value !== ``) {
+    rulesBtn.disabled = false;
+  }
+});
+rulesBtn.addEventListener(`click`, () => changeScreen(gameOneElement))
+
 export default rulesElement;

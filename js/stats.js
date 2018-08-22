@@ -1,4 +1,6 @@
-const statsElement = getElementFromTemplate(`<template id="stats">
+import {render, changeScreen} from './util.js';
+
+const statsElement = render(`<template id="stats">
   <header class="header">
     <button class="back">
       <span class="visually-hidden">Вернуться к началу</span>
@@ -111,4 +113,5 @@ const statsElement = getElementFromTemplate(`<template id="stats">
     </table>
   </section>
 </template>`);
+
 export default statsElement;

@@ -1,7 +1,8 @@
 import {render, changeScreen} from './util.js';
+import gameThreeElement from './game-3.js';
+import introElement from './intro.js';
 
-const gameTwoElement = render(`<template id="game-2">
-  <header class="header">
+const gameTwoElement = render(`<header class="header">
     <button class="back">
       <span class="visually-hidden">Вернуться к началу</span>
       <svg class="icon" width="45" height="45" viewBox="0 0 45 45" fill="#000000">
@@ -45,6 +46,18 @@ const gameTwoElement = render(`<template id="game-2">
       <li class="stats__result stats__result--fast"></li>
       <li class="stats__result stats__result--unknown"></li>
     </ul>
-  </section>
-</template>`);
+  </section>`);
+
+const gameOptions = Array.prototype.slice.call(gameTwoElement.querySelectorAll(`.game__answer input[type="radio"]`));
+const onRadioClick = () => {
+  changeScreen(gameThreeElement);
+};
+gameOptions.forEach(function (it) {
+  it.addEventListener(`click`, onRadioClick);
+});
+const backBtn = gameTwoElement.querySelector(`.back`);
+backBtn.addEventListener(`click`, () => {
+  changeScreen(introElement);
+});
+
 export default gameTwoElement;

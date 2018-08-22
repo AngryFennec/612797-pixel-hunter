@@ -1,4 +1,6 @@
 import {render, changeScreen} from './util.js';
+import gameTwoElement from './game-2.js';
+import introElement from './intro.js';
 
 const gameOneElement = render(`<header class="header">
     <button class="back">
@@ -57,9 +59,20 @@ const gameOneElement = render(`<header class="header">
     </ul>
   </section>`);
 
-  const QUESTION_NUMBERS = 2;
-
-  const gameOptions = gameOneElement.querySelectorAll('.game__answer input[type="radio"]');
-  console.log(gameOptions);
+const QUESTION_NUMBERS = 2;
+const gameOptions = Array.prototype.slice.call(gameOneElement.querySelectorAll(`.game__answer input[type="radio"]`));
+const gameForm = gameOneElement.querySelector(`.game__content`);
+gameForm.addEventListener(`click`, () => {
+  const checkedOptions = gameOptions.filter(function (it) {
+    return it.checked;
+  });
+  if (checkedOptions.length >= QUESTION_NUMBERS) {
+    changeScreen(gameTwoElement);
+  }
+});
+const backBtn = gameOneElement.querySelector(`.back`);
+backBtn.addEventListener(`click`, () => {
+  changeScreen(introElement);
+});
 
 export default gameOneElement;

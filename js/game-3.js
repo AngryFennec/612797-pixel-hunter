@@ -1,7 +1,8 @@
 import {render, changeScreen} from './util.js';
+import statsElement from './stats.js';
+import introElement from './intro.js';
 
-const gameThreeElement = render(`<template id="game-3">
-  <header class="header">
+const gameThreeElement = render(`<header class="header">
     <button class="back">
       <span class="visually-hidden">Вернуться к началу</span>
       <svg class="icon" width="45" height="45" viewBox="0 0 45 45" fill="#000000">
@@ -43,6 +44,18 @@ const gameThreeElement = render(`<template id="game-3">
       <li class="stats__result stats__result--fast"></li>
       <li class="stats__result stats__result--unknown"></li>
     </ul>
-  </section>
-</template>`);
+  </section>`);
+
+const gameOptions = Array.prototype.slice.call(gameThreeElement.querySelectorAll(`.game__option`));
+const onGameOptionClick = () => {
+  changeScreen(statsElement);
+};
+gameOptions.forEach(function (it) {
+  it.addEventListener(`click`, onGameOptionClick);
+});
+const backBtn = statsElement.querySelector(`.back`);
+backBtn.addEventListener(`click`, () => {
+  changeScreen(introElement);
+});
+
 export default gameThreeElement;

@@ -1,9 +1,4 @@
-import {render, changeScreen} from './util.js';
-import introElement from './intro.js';
-import state from './game-data.js';
-import tasks from './game-data.js';
-
-const gameTwoTemplate =  (state, task) => {
+const gameTwoTemplate = (state, task) => {
   const template = `<p class="game__task">${task.description}</p>
   <form class="game__content  game__content--wide">
     <div class="game__option">
@@ -18,24 +13,11 @@ const gameTwoTemplate =  (state, task) => {
       </label>
     </div>
   </form> //stats`;
-      return template;
+  return template;
 };
-const gameTwoElement = (state, task) => { return gameTwoTemplate(state, task)};
-export default gameTwoElement;
 
 
-/*
-const gameOptions = Array.prototype.slice.call(gameTwoElement.querySelectorAll(`.game__answer input[type="radio"]`));
-const onRadioClick = () => {
-  changeScreen(gameThreeElement);
+const gameTwoElement = (state, task) => {
+  return gameTwoTemplate(state, task);
 };
-gameOptions.forEach(function (it) {
-  it.addEventListener(`click`, onRadioClick);
-});
-const backBtn = gameTwoElement.querySelector(`.back`);
-backBtn.addEventListener(`click`, () => {
-  changeScreen(introElement);
-});
-
 export default gameTwoElement;
-*/

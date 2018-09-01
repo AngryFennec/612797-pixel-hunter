@@ -135,6 +135,7 @@ export const changeTime = (game, time) => {
   export const state = {
     level: 0,
     lives: 3,
+    livesLost: 3-lives,
     time: 0
   };
 
@@ -175,30 +176,33 @@ export const changeTime = (game, time) => {
     switch (typeNum) {
       case 1: {
         task = {
-          description: taskOnePicture,
+          description: taskOnePicture.description,
           answers: taskOnePicture.answers,
           imgFirst: imgs.paintings[getRandomInt(0, 2)],
+          number: 1,
           rightAnswer: 'paint'
         };
         break;
       }
       case 2: {
         task = {
-          description: taskTwoPictures,
+          description: taskTwoPictures.description,
           answers: taskTwoPictures.answers,
           imgFirst: imgs.paintings[getRandomInt(0, 2)],
           imgSecond: imgs.photos[getRandomInt(0, 2)],
+          number: 2,
           rightAnswer: ['paint', 'photo']
         };
         break;
       }
       case 3: {
         task = {
-          description: taskThreePictures,
+          description: taskThreePictures.description,
           answers: taskThreePictures.answers,
           imgFirst: imgs.paintings[getRandomInt(0, 2)],
           imgSecond: imgs.photos[getRandomInt(0, 2)],
           imgThird: imgs.photos[getRandomInt(0, 2)],
+          number: 3,
           rightAnswer: 1
         };
         break;

@@ -2,6 +2,8 @@ import {render, changeScreen} from './util.js';
 import gameOneElement from './game-1.js';
 import introElement from './intro.js';
 import tasks from './game-data.js';
+import levelScreen from './task-screen.js';
+
 const rulesElement = render(`<header class="header">
     <button class="back">
       <span class="visually-hidden">Вернуться к началу</span>
@@ -38,7 +40,7 @@ rulesInput.addEventListener(`input`, () => {
     rulesBtn.disabled = false;
   }
 });
-rulesBtn.addEventListener(`click`, () => console.log(tasks));//changeScreen(gameOneElement));
+rulesBtn.addEventListener(`click`, () => changeScreen(levelScreen));//changeScreen(gameOneElement));
 const backBtn = rulesElement.querySelector(`.back`);
 backBtn.addEventListener(`click`, () => {
   changeScreen(introElement);

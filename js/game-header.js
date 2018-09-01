@@ -10,7 +10,7 @@ const gameHeaderTemplate = (state) => `<header class="header">
     </button>
     <div class="game__timer">${state.time}</div>
     <div class="game__lives">
-      ${new Array(3 - state.lives)
+      ${new Array(state.livesLost) //3 - state.lives
         .fill(`<img src="img/heart__empty.svg" class="game__heart" alt=" Missed Life" width="31" height="27">`)
         .join(``)}
       ${new Array(state.lives)
@@ -18,5 +18,5 @@ const gameHeaderTemplate = (state) => `<header class="header">
         .join(``)}
     </div>
   </header>`;
-export const container = document.querySelector(`#main`);
-container.appendChild(render(gameHeaderTemplate(initialState)));
+
+  export default gameHeaderTemplate;

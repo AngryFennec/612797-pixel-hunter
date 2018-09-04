@@ -1,6 +1,6 @@
 import {render, changeScreen} from './util.js';
-import gameOneElement from './game-1.js';
 import introElement from './intro.js';
+import screens from './screens.js';
 
 const rulesElement = render(`<header class="header">
     <button class="back">
@@ -38,7 +38,7 @@ rulesInput.addEventListener(`input`, () => {
     rulesBtn.disabled = false;
   }
 });
-rulesBtn.addEventListener(`click`, () => changeScreen(gameOneElement));
+rulesBtn.addEventListener(`click`, () => changeScreen(screens[0]));// changeScreen(gameOneElement));
 const backBtn = rulesElement.querySelector(`.back`);
 backBtn.addEventListener(`click`, () => {
   changeScreen(introElement);

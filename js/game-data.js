@@ -106,3 +106,13 @@ export const changeTime = (game, time) => {
   });
   return newGame;
 };
+
+  /* module4-task1 */
+export let state = {
+  level: 0,
+  lives: 3,
+  livesLost: 0,
+  time: 0
+};
+
+export default state;

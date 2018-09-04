@@ -12,7 +12,7 @@ const gameTwoTemplate = (state, task) => {
         <span>Рисунок</span>
       </label>
     </div>
-  </form> //stats`;
+  </form>`;
   return template;
 };
 

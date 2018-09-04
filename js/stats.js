@@ -18,7 +18,6 @@ const statsElement = render(`<header class="header">
       <tr>
         <td class="result__number">1.</td>
         <td colspan="2">
-          //stats
         </td>
         <td class="result__points">× 100</td>
         <td class="result__total">900</td>

@@ -10,7 +10,7 @@ const gameThreeTemplate = (state, task) => {
         <div class="game__option">
           <img src="${task.imgThird}" alt="Option 3" width="304" height="455">
         </div>
-      </form> //stats`;
+      </form>`;
   return template;
 };
 

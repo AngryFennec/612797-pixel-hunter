@@ -1,6 +1,7 @@
-import {render, changeScreen} from './util.js';
+import {render, changeScreen, show} from './util.js';
 import introElement from './intro.js';
 import screens from './screens.js';
+import ButtonView from './button-view.js';
 
 const rulesElement = render(`<header class="header">
     <button class="back">
@@ -39,9 +40,11 @@ rulesInput.addEventListener(`input`, () => {
   }
 });
 rulesBtn.addEventListener(`click`, () => changeScreen(screens[0]));// changeScreen(gameOneElement));
-const backBtn = rulesElement.querySelector(`.back`);
-backBtn.addEventListener(`click`, () => {
-  changeScreen(introElement);
-});
+
+const backBtn = new ButtonView();
+show(backBtn,  rulesElement.querySelector(`.back`));
+backBtn.onClick = () => changeScreen(introElement);
+//const backBtn = rulesElement.querySelector(`.back`);
+
 
 export default rulesElement;

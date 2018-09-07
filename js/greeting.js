@@ -1,6 +1,7 @@
 import {render, changeScreen} from './util.js';
 import rulesElement from './rules.js';
 
+
 const greetingElement = render(`<section class="greeting central--blur">
     <img class="greeting__logo" src="img/logo_ph-big.svg" width="201" height="89" alt="Pixel Hunter">
     <div class="greeting__asterisk asterisk"><span class="visually-hidden">Я просто красивая звёздочка</span>*</div>

@@ -1,5 +1,5 @@
 import {render, changeScreen} from './util.js';
-import introElement from './intro.js';
+import Intro from './intro.js';
 
 const statsElement = render(`<header class="header">
     <button class="back">
@@ -102,7 +102,7 @@ const statsElement = render(`<header class="header">
   </section>`);
 const backBtn = statsElement.querySelector(`.back`);
 backBtn.addEventListener(`click`, () => {
-  changeScreen(introElement);
+  changeScreen(new Intro().element);
 });
 
 export default statsElement;

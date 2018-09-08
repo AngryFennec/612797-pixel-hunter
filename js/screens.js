@@ -1,27 +1,25 @@
 import {render, changeScreen} from './util.js';
-import introElement from './intro.js';
+import Intro from './intro.js';
 import statsElement from './stats.js';
-import statsListTemplate from './stats-list.js';
 import state from './game-data.js';
 import tasks from './task-file.js';
-import gameHeaderTemplate from './game-header.js';
-import gameOneElement from './game-1.js';
-import gameTwoElement from './game-2.js';
-import gameThreeElement from './game-3.js';
+import GameOne from './game-1.js';
+import GameTwo from './game-2.js';
+import GameThree from './game-3.js';
 
 const gameTask = (currentState, task) => {
   let template = ``;
   switch (task.number) {
     case 1: {
-      template = gameTwoElement(currentState, task);
+      template = new GameTwo(currentState, task).template;
       break;
     }
     case 2: {
-      template = gameOneElement(currentState, task);
+      template = new GameOne(currentState, task).template;
       break;
     }
     case 3: {
-      template = gameThreeElement(currentState, task);
+      template = new GameThree(currentState, task).template;
       break;
     }
   }
@@ -41,7 +39,7 @@ const checkThreeAnswer = (task, select) => {
 };
 
 const getCurrentLevel = (currentState, task) => {
-  return render(gameHeaderTemplate(currentState) + gameTask(currentState, task) + statsListTemplate);
+  return render(gameTask(currentState, task));
 };
 
 const levelHandler = (currentLevel, task, nextLevel) => {
@@ -120,7 +118,7 @@ for (let i = 0; i < tasks.length; i++) {
   let levelScreen = getCurrentLevel(state, tasks[i]);
   const backBtn = levelScreen.querySelector(`.back`);
   backBtn.addEventListener(`click`, () => {
-    changeScreen(introElement);
+    changeScreen(new Intro().element);
   });
   screens.push(levelScreen);
 }

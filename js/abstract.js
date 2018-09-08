@@ -1,23 +1,29 @@
-class AbstractView {
-  let
-
-get template() {
-  return template;
-}
-
-render(templ) {
-  const wrapper = document.createElement(`div`);
-  wrapper.innerHTML = template;
-  return wrapper;
-}
-bind() {
-}
-
-get element() {
-  if (this.domElement === undefined) {
-    render(template());
-    bind();
+export default class AbstractView {
+  constructor() {
+    if (new.target === AbstractView) {
+      throw new Error(`already defined`);
+    }
   }
-  return domElement;
-}
+
+  get template() {
+    return;
+  }
+
+  get render() {
+    const wrapper = document.createElement(`div`);
+    wrapper.innerHTML = this.template;
+    return wrapper;
+  }
+
+  bind() {
+  }
+
+  get element() {
+    if (this._element) {
+      return this._element;
+    }
+    this._element = this.render;
+    this.bind();
+    return this._element;
+  }
 }

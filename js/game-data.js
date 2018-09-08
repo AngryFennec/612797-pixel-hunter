@@ -111,8 +111,20 @@ export const changeTime = (game, time) => {
 export let state = {
   level: 0,
   lives: 3,
-  livesLost: 0,
-  time: 0
+  time: 0,
+  answers: {
+    1: '',
+    2: '',
+    3: '',
+    4: '',
+    5: '',
+    6: '',
+    7: '',
+    8: '',
+    9: '',
+    10: ''
+  },
+  levels: []
 };
 
 export default state;

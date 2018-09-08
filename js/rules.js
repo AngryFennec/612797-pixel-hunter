@@ -49,7 +49,7 @@ get template() {
         rulesBtn.disabled = false;
       }
     });
-    rulesBtn.addEventListener(`click`, () => changeScreen(screens[0]));// changeScreen(gameOneElement));
+    rulesBtn.addEventListener(`click`, () => changeScreen(screens[0].element));// changeScreen(gameOneElement));
     const backBtn = this.element.querySelector(`.back`);
     backBtn.onClick = () => changeScreen(new Intro().element);
   }

@@ -1,16 +1,20 @@
-import AbstractView from './abstract.js';
+import GameObject from './game-object.js';
 import GameHeader from './game-header.js';
 import StatsList from './stats-list.js';
+import StatsScreen from './stats.js';
+import Intro from './intro.js';
+import {changeScreen, changeScreen2, render} from './util.js';
 
-export default class GameThree extends AbstractView {
-  constructor(state, task) {
+export default class GameThree extends GameObject {
+  constructor(state, task, number) {
     super();
     this.state = state;
     this.task = task;
+    this.number = number;
   }
 
   get template() {
-    const header = new GameHeader(this.state).template;
+    let header = new GameHeader(this.state).template;
     const stats = new StatsList(this.state).template;
     return  header + `<p class="game__task">${this.task.description}</p>
       <form class="game__content  game__content--triple">
@@ -29,4 +33,37 @@ export default class GameThree extends AbstractView {
     checkAnswer(task, select) {
       return (task.rightAnswer === Number(select));
     }
+
+    bind() {
+      const gameOptions = Array.prototype.slice.call(this.element.querySelectorAll(`.game__option`));
+      const onGameOptionClick = () => {
+        const chosen = document.querySelector(`.game__option--selected`);
+        if (!this.checkAnswer(this.task, chosen.value) && this.state.lives === 0) {
+          this.state.answers[this.number] = false;
+          changeScreen(new StatsScreen().element);
+        } else if (!this.checkAnswer(this.task, chosen.value)) {
+          this.state.lives--;
+          this.state.answers[this.number] = false;
+          if (this.number === 9) {
+            changeScreen(new StatsScreen().element);
+          }
+          changeScreen2(this.state.levels[this.number+1]);
+        } else {
+          this.state.answers[this.number] = true;
+          if (this.number === 9) {
+            changeScreen(new StatsScreen().element);
+          }
+          changeScreen2(this.state.levels[this.number+1]);
+        }
+      };
+      gameOptions.forEach(function (it) {
+        it.addEventListener(`click`, onGameOptionClick);
+      });
+      const backBtn = this.element.querySelector(`.back`);
+      backBtn.addEventListener(`click`, () => {
+        changeScreen(new Intro().element);
+      });
+    }
+
+
 }

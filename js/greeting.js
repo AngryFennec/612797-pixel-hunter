@@ -1,7 +1,14 @@
-import {render, changeScreen} from './util.js';
-import rulesElement from './rules.js';
+import {changeScreen} from './util.js';
+import Rules from './rules.js';
+import AbstractView from './abstract.js';
 
-const greetingElement = render(`<section class="greeting central--blur">
+export default class Greeting extends AbstractView {
+  constructor() {
+    super();
+  }
+
+  get template() {
+    return `<section class="greeting central--blur">
     <img class="greeting__logo" src="img/logo_ph-big.svg" width="201" height="89" alt="Pixel Hunter">
     <div class="greeting__asterisk asterisk"><span class="visually-hidden">Я просто красивая звёздочка</span>*</div>
     <div class="greeting__challenge">
@@ -20,9 +27,11 @@ const greetingElement = render(`<section class="greeting central--blur">
         <use xlink:href="img/sprite.svg#arrow-right"></use>
       </svg>
     </button>
-  </section>`);
+  </section>`;
+  }
 
-const toRulesBtn = greetingElement.querySelector(`.greeting__continue`);
-toRulesBtn.addEventListener(`click`, () => changeScreen(rulesElement));
-
-export default greetingElement;
+  bind() {
+    const toRulesBtn = this.element.querySelector(`.greeting__continue`);
+    toRulesBtn.addEventListener(`click`, () => changeScreen(new Rules().element));
+  }
+}

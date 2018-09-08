@@ -1,4 +1,4 @@
-import {render, changeScreen} from './util.js';
+import {changeScreen} from './util.js';
 import Greeting from './greeting.js';
 import state from './game-data.js';
 import AbstractView from './abstract.js';
@@ -6,7 +6,6 @@ import AbstractView from './abstract.js';
 export default class Intro extends AbstractView {
   constructor() {
     super();
-    //this.state = state;
   }
 
   get template() {

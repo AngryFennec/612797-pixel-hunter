@@ -3,7 +3,7 @@ import GameHeader from './game-header.js';
 import StatsList from './stats-list.js';
 import StatsScreen from './stats.js';
 import Intro from './intro.js';
-import {changeScreen2, changeScreen, render} from './util.js';
+import {changeScreen, changeScreen2} from './util.js';
 
 export default class GameOne extends GameObject {
   constructor(state, task, number) {
@@ -16,7 +16,7 @@ export default class GameOne extends GameObject {
   get template() {
     let header = new GameHeader(this.state).template;
     const stats = new StatsList(this.state).template;
-    return  header + `<p class="game__task">${this.task.description}</p>
+    return header + `<p class="game__task">${this.task.description}</p>
     <form class="game__content">
       <div class="game__option">
         <img src="${this.task.imgFirst}" alt="Option 1" width="468" height="458">
@@ -55,22 +55,22 @@ export default class GameOne extends GameObject {
         return it.checked;
       });
       if (checkedOptions.length >= 2) {
-        if (!this.checkAnswer(this.task, checkedOptions) && this.state.lives === 0) {
+        if (!this.checkAnswer(this.task, checkedOptions) && this.state.lives === 1) {
           this.state.answers[this.number] = false;
-            changeScreen(new StatsScreen().element);
+          changeScreen(new StatsScreen().element);
         } else if (!this.checkAnswer(this.task, checkedOptions)) {
           this.state.lives--;
           this.state.answers[this.number] = false;
           if (this.number === 9) {
             changeScreen(new StatsScreen().element);
           }
-          changeScreen2(this.state.levels[this.number+1]);
+          changeScreen2(this.state.levels[this.number + 1]);
         } else {
           this.state.answers[this.number] = true;
           if (this.number === 9) {
             changeScreen(new StatsScreen().element);
           }
-          changeScreen2(this.state.levels[this.number+1]);
+          changeScreen2(this.state.levels[this.number + 1]);
         }
       }
     });
@@ -79,7 +79,4 @@ export default class GameOne extends GameObject {
       changeScreen(new Intro().element);
     });
   }
-
-
-
 }

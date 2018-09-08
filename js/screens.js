@@ -1,4 +1,3 @@
-import {render, changeScreen} from './util.js';
 import state from './game-data.js';
 import tasks from './task-file.js';
 import GameObject from './game-object.js';
@@ -25,7 +24,6 @@ const getCurrentLevel = (currentState, task, number) => {
   return gameObject;
 };
 
-let answers = [];
 let screens = [];
 for (let i = 0; i < tasks.length; i++) {
   let levelScreen = getCurrentLevel(state, tasks[i], i);

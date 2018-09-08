@@ -1,5 +1,5 @@
 import AbstractView from './abstract.js';
-import {changeScreen, changeScreen2, render} from './util.js';
+import {render} from './util.js';
 
 export default class GameObject extends AbstractView {
   constructor(state, task, number) {
@@ -7,9 +7,6 @@ export default class GameObject extends AbstractView {
     this.state = state;
     this.task = task;
     this.number = number;
-  }
-
-  checkAnswer(task, select) {
   }
 
   renewLives() {

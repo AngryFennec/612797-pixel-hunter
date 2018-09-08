@@ -1,15 +1,14 @@
-import {render, changeScreen} from './util.js';
+import {changeScreen} from './util.js';
 import Intro from './intro.js';
 import AbstractView from './abstract.js';
 
 export default class StatsScreen extends AbstractView {
   constructor() {
     super();
-    //this.state = state;
   }
 
-get template() {
-  return `<header class="header">
+  get template() {
+    return `<header class="header">
     <button class="back">
       <span class="visually-hidden">Вернуться к началу</span>
       <svg class="icon" width="45" height="45" viewBox="0 0 45 45" fill="#000000">
@@ -108,12 +107,12 @@ get template() {
       </tr>
     </table>
   </section>`;
-}
+  }
 
-bind() {
-  const backBtn = this.element.querySelector(`.back`);
-  backBtn.addEventListener(`click`, () => {
-    changeScreen(new Intro().element);
-  });
-}
+  bind() {
+    const backBtn = this.element.querySelector(`.back`);
+    backBtn.addEventListener(`click`, () => {
+      changeScreen(new Intro().element);
+    });
+  }
 }

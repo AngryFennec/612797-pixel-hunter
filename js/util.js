@@ -16,7 +16,3 @@ export const changeScreen2 = (object) => {
   object.renewLives();
   mainElement.appendChild(object.element);
 };
-
-export const show = (object, element) => {
-  object = element;
-}

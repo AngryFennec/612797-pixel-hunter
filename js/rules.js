@@ -1,4 +1,4 @@
-import {render, changeScreen, show} from './util.js';
+import {changeScreen} from './util.js';
 import Intro from './intro.js';
 import screens from './screens.js';
 import AbstractView from './abstract.js';
@@ -6,11 +6,10 @@ import AbstractView from './abstract.js';
 export default class Rules extends AbstractView {
   constructor() {
     super();
-    //this.state = state;
   }
 
-get template() {
-  return `<header class="header">
+  get template() {
+    return `<header class="header">
       <button class="back">
         <span class="visually-hidden">Вернуться к началу</span>
         <svg class="icon" width="45" height="45" viewBox="0 0 45 45" fill="#000000">
@@ -49,7 +48,7 @@ get template() {
         rulesBtn.disabled = false;
       }
     });
-    rulesBtn.addEventListener(`click`, () => changeScreen(screens[0].element));// changeScreen(gameOneElement));
+    rulesBtn.addEventListener(`click`, () => changeScreen(screens[0].element));
     const backBtn = this.element.querySelector(`.back`);
     backBtn.onClick = () => changeScreen(new Intro().element);
   }

@@ -1,15 +1,14 @@
-import {render, changeScreen} from './util.js';
+import {changeScreen} from './util.js';
 import Rules from './rules.js';
 import AbstractView from './abstract.js';
 
 export default class Greeting extends AbstractView {
   constructor() {
     super();
-    //this.state = state;
   }
 
-get template() {
-  return `<section class="greeting central--blur">
+  get template() {
+    return `<section class="greeting central--blur">
     <img class="greeting__logo" src="img/logo_ph-big.svg" width="201" height="89" alt="Pixel Hunter">
     <div class="greeting__asterisk asterisk"><span class="visually-hidden">Я просто красивая звёздочка</span>*</div>
     <div class="greeting__challenge">

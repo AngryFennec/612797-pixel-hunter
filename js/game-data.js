@@ -1,7 +1,9 @@
+import GameObject from './game-object.js';
 const NUM = 10;
 const TIME_LIMIT = 30;
 const LEVEL_LIMIT = 10;
 const LIVES = 3;
+const ONE_SECOND = 1000;
 export const INITIAL_GAME = Object.freeze({
   level: 0,
   lives: 3,
@@ -111,7 +113,7 @@ export const changeTime = (game, time) => {
 export let state = {
   level: 0,
   lives: 3,
-  time: 0,
+  time: 30,
   answers: {
     1: ``,
     2: ``,
@@ -126,5 +128,30 @@ export let state = {
   },
   levels: []
 };
+
+export const tick = (obj) => {
+  state = Object.assign({}, state, {
+    time: state.time - 1
+  });
+  obj.renewTimer(state);
+};
+
+let timer;
+
+export const startTimer = (obj) => {
+  obj.renewTimer(state);
+  timer = setTimeout(() => {
+    tick(obj);
+    startTimer(obj);
+  }, ONE_SECOND);
+};
+
+export const stopTimer = () => {
+  state = Object.assign({}, state, {
+    time: TIME_LIMIT
+  });
+  clearTimeout(timer);
+};
+
 
 export default state;

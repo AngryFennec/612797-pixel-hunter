@@ -1,4 +1,5 @@
 import AbstractView from './abstract.js';
+import updateState from './game-data.js'
 import {render} from './util.js';
 
 export default class GameObject extends AbstractView {
@@ -21,5 +22,12 @@ export default class GameObject extends AbstractView {
         .join(``)}
       </div>`;
     headerLives.appendChild(render(newHeaderString));
+  }
+
+  renewTimer(state) {
+    this.state = state;
+    let timerDiv = this.element.querySelector(`.game__timer`);
+
+    timerDiv.textContent = this.state.time;
   }
 }

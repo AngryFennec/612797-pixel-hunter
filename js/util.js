@@ -1,3 +1,5 @@
+import {startTimer, stopTimer} from './game-data.js';
+
 export const render = (template) => {
   const wrapper = document.createElement(`div`);
   wrapper.innerHTML = template;
@@ -12,7 +14,9 @@ export const changeScreen = (element) => {
 };
 
 export const changeScreen2 = (object) => {
+  stopTimer();
   mainElement.innerHTML = ``;
-  object.renewLives();
+  object.renewLives(object.state);
   mainElement.appendChild(object.element);
+  startTimer(object);
 };

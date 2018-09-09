@@ -1,6 +1,7 @@
 import GameObject from './game-object.js';
 import GameHeader from './game-header.js';
 import StatsList from './stats-list.js';
+import Application from './application.js';
 import StatsScreen from './stats.js';
 import Intro from './intro.js';
 import {changeScreen, changeScreen2} from './util.js';
@@ -40,18 +41,18 @@ export default class GameThree extends GameObject {
       const chosen = document.querySelector(`.game__option--selected`);
       if (!this.checkAnswer(this.task, chosen.value) && this.state.lives === 1) {
         this.state.answers[this.number] = false;
-        changeScreen(new StatsScreen().element);
+        Application.showStats(this.state);
       } else if (!this.checkAnswer(this.task, chosen.value)) {
         this.state.lives--;
         this.state.answers[this.number] = false;
         if (this.number === 9) {
-          changeScreen(new StatsScreen().element);
+          Application.showStats(this.state);
         }
         changeScreen2(this.state.levels[this.number + 1]);
       } else {
         this.state.answers[this.number] = true;
         if (this.number === 9) {
-          changeScreen(new StatsScreen().element);
+          Application.showStats(this.state);
         }
         changeScreen2(this.state.levels[this.number + 1]);
       }

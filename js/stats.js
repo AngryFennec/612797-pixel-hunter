@@ -3,11 +3,16 @@ import Intro from './intro.js';
 import AbstractView from './abstract.js';
 
 export default class StatsScreen extends AbstractView {
-  constructor() {
+  constructor(state) {
     super();
+    this.state = state;
   }
 
   get template() {
+    let title = `Поражение :(`;
+    if (this.state.answers[10]) {
+      title = `Победа!`
+    }
     return `<header class="header">
     <button class="back">
       <span class="visually-hidden">Вернуться к началу</span>
@@ -20,7 +25,7 @@ export default class StatsScreen extends AbstractView {
     </button>
   </header>
   <section class="result">
-    <h2 class="result__title">Победа!</h2>
+    <h2 class="result__title">${title}</h2>
     <table class="result__table">
       <tr>
         <td class="result__number">1.</td>

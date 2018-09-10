@@ -1,7 +1,6 @@
 import GameObject from './game-object.js';
 import GameHeader from './game-header.js';
 import StatsList from './stats-list.js';
-import StatsScreen from './stats.js';
 import Application from './application.js';
 import Intro from './intro.js';
 import {changeScreen, changeScreen2} from './util.js';
@@ -64,8 +63,7 @@ export default class GameOne extends GameObject {
           this.state.answers[this.number] = false;
           if (this.number === 9) {
             Application.showStats(this.state);
-          }
-          else {
+          } else {
             changeScreen2(this.state.levels[this.number + 1]);
           }
         } else {

@@ -1,4 +1,3 @@
-import GameObject from './game-object.js';
 const NUM = 10;
 const TIME_LIMIT = 30;
 const LEVEL_LIMIT = 10;
@@ -139,8 +138,7 @@ export const tick = (obj) => {
     });
     if (state.lives > 0) {
       obj.changeToNextLevel();
-    }
-    else {
+    } else {
       obj.finish(state);
     }
   } else {
@@ -164,6 +162,5 @@ export const stopTimer = () => {
   });
   clearTimeout(timer);
 };
-
 
 export default state;

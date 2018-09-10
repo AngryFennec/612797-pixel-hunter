@@ -2,11 +2,8 @@ import GameObject from './game-object.js';
 import GameHeader from './game-header.js';
 import StatsList from './stats-list.js';
 import Application from './application.js';
-import StatsScreen from './stats.js';
 import Intro from './intro.js';
 import {changeScreen, changeScreen2} from './util.js';
-
-const TIME_LIMIT = 30;
 
 export default class GameTwo extends GameObject {
   constructor(state, task, number) {
@@ -44,7 +41,6 @@ export default class GameTwo extends GameObject {
     const gameOptions = Array.prototype.slice.call(this.element.querySelectorAll(`.game__answer input[type="radio"]`));
 
     const onRadioClick = (evt) => {
-      console.log(this.state.time);
       const chosen = evt.target.value;
       if (!this.checkAnswer(this.task, chosen) && this.state.lives === 1) {
         this.state.answers[this.number] = false;
@@ -60,8 +56,9 @@ export default class GameTwo extends GameObject {
         this.state.answers[this.number] = this.checkTime(this.state.time);
         if (this.number === 9) {
           Application.showStats(this.state);
+        } else {
+          changeScreen2(this.state.levels[this.number + 1]);
         }
-        changeScreen2(this.state.levels[this.number + 1]);
       }
     };
     gameOptions.forEach(function (it) {

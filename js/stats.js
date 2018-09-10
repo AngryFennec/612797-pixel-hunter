@@ -1,5 +1,4 @@
-import {changeScreen} from './util.js';
-import Intro from './intro.js';
+import Application from './application.js';
 import AbstractView from './abstract.js';
 
 export default class StatsScreen extends AbstractView {
@@ -11,7 +10,7 @@ export default class StatsScreen extends AbstractView {
   get template() {
     let title = `Поражение :(`;
     if (this.state.answers[10]) {
-      title = `Победа!`
+      title = `Победа!`;
     }
     return `<header class="header">
     <button class="back">
@@ -117,7 +116,7 @@ export default class StatsScreen extends AbstractView {
   bind() {
     const backBtn = this.element.querySelector(`.back`);
     backBtn.addEventListener(`click`, () => {
-      changeScreen(new Intro().element);
+      Application.showWelcome();
     });
     this.createNewStats();
   }
@@ -126,9 +125,9 @@ export default class StatsScreen extends AbstractView {
     const tableElement = document.createElement(`table`);
     tableElement.classList.add(`result__table`);
     const rowElement = document.createElement(`tr`);
-    let  firstCell = document.createElement(`td`);
+    let firstCell = document.createElement(`td`);
     firstCell.classList.add(`result__number`);
-    firstCell.textContent = this.element.querySelectorAll(`.result__table`).length + 1 + '.';
+    firstCell.textContent = this.element.querySelectorAll(`.result__table`).length + 1 + `.`;
     let secondCell = document.createElement(`td`);
     let ulElement = document.createElement(`ul`);
     ulElement.classList.add(`stats`);
@@ -145,9 +144,9 @@ export default class StatsScreen extends AbstractView {
       } else if (this.state.answers[i] === `fast`) {
         newLi.classList.add(`stats__result--fast`);
       }
-        if (this.state.answers[i] === ``) {
-          newLi.classList.remove(`stats__result--wrong`);
-        }
+      if (this.state.answers[i] === ``) {
+        newLi.classList.remove(`stats__result--wrong`);
+      }
       ulElement.appendChild(newLi);
     }
     let thirdCell = document.createElement(`td`);
@@ -156,15 +155,14 @@ export default class StatsScreen extends AbstractView {
       thirdCell.classList.add(`result__total`);
       fourthCell.classList.add(`result__total`);
       fourthCell.classList.add(`result__total--final`);
-        fourthCell.textContent = `fail`;
-        secondCell.appendChild(ulElement);
-        rowElement.appendChild(firstCell);
-        rowElement.appendChild(secondCell);
-        rowElement.appendChild(thirdCell);
-        rowElement.appendChild(fourthCell);
-        tableElement.appendChild(rowElement);
-    }
-    else {
+      fourthCell.textContent = `fail`;
+      secondCell.appendChild(ulElement);
+      rowElement.appendChild(firstCell);
+      rowElement.appendChild(secondCell);
+      rowElement.appendChild(thirdCell);
+      rowElement.appendChild(fourthCell);
+      tableElement.appendChild(rowElement);
+    } else {
       thirdCell.classList.add(`result__points`);
       thirdCell.textContent = `× 100`;
       fourthCell.classList.add(`result__total`);
@@ -201,7 +199,7 @@ export default class StatsScreen extends AbstractView {
 
   calculateSlow(element) {
     let slows = Array.prototype.slice.call(element.querySelectorAll(`.stats__result--slow`));
-    return slowss.length;
+    return slows.length;
   }
 
   calculateUsual(element) {
@@ -211,9 +209,9 @@ export default class StatsScreen extends AbstractView {
 
   calculateAll(element) {
     let sum = 0;
-    sum += calculateUsual(element) * 100;
-    sum += calculateFast(element) * 50;
-    sum -= calculateSlow(element) * 50;
+    sum += this.calculateUsual(element) * 100;
+    sum += this.calculateFast(element) * 50;
+    sum -= this.calculateSlow(element) * 50;
     sum += this.state.lives * 50;
     return sum;
   }
@@ -221,10 +219,10 @@ export default class StatsScreen extends AbstractView {
   createFastRow(element) {
     let points = this.calculateFast(element);
     const rowElement = document.createElement(`tr`);
-    let  firstCell = document.createElement(`td`);
+    let firstCell = document.createElement(`td`);
     let secondCell = document.createElement(`td`);
     secondCell.classList.add(`result__extra`);
-    secondCell.textContent  = `Бонус за скорость:`;
+    secondCell.textContent = `Бонус за скорость:`;
     let thirdCell = document.createElement(`td`);
     thirdCell.classList.add(`result__extra`);
     let thirdSpan = document.createElement(`span`);
@@ -234,10 +232,10 @@ export default class StatsScreen extends AbstractView {
     thirdCell.appendChild(thirdSpan);
     let fourthCell = document.createElement(`td`);
     fourthCell.classList.add(`result__points`);
-    fourthCell.textContent  = `× 50`;
+    fourthCell.textContent = `× 50`;
     let fifthCell = document.createElement(`td`);
     fifthCell.classList.add(`result__total`);
-    fifthCell.textContent  = points * 50;
+    fifthCell.textContent = points * 50;
     rowElement.appendChild(firstCell);
     rowElement.appendChild(secondCell);
     rowElement.appendChild(thirdCell);
@@ -249,10 +247,10 @@ export default class StatsScreen extends AbstractView {
   createSlowRow(element) {
     let points = this.calculateSlow(element);
     const rowElement = document.createElement(`tr`);
-    let  firstCell = document.createElement(`td`);
+    let firstCell = document.createElement(`td`);
     let secondCell = document.createElement(`td`);
     secondCell.classList.add(`result__extra`);
-    secondCell.textContent  = `Штраф за медлительность:`;
+    secondCell.textContent = `Штраф за медлительность:`;
     let thirdCell = document.createElement(`td`);
     thirdCell.classList.add(`result__extra`);
     let thirdSpan = document.createElement(`span`);
@@ -262,10 +260,10 @@ export default class StatsScreen extends AbstractView {
     thirdCell.appendChild(thirdSpan);
     let fourthCell = document.createElement(`td`);
     fourthCell.classList.add(`result__points`);
-    fourthCell.textContent  = `× 50`;
+    fourthCell.textContent = `× 50`;
     let fifthCell = document.createElement(`td`);
     fifthCell.classList.add(`result__total`);
-    fifthCell.textContent  = points * 50 * (-1);
+    fifthCell.textContent = points * 50 * (-1);
     rowElement.appendChild(firstCell);
     rowElement.appendChild(secondCell);
     rowElement.appendChild(thirdCell);
@@ -277,10 +275,10 @@ export default class StatsScreen extends AbstractView {
   createLivesRow() {
     let points = this.state.lives;
     const rowElement = document.createElement(`tr`);
-    let  firstCell = document.createElement(`td`);
+    let firstCell = document.createElement(`td`);
     let secondCell = document.createElement(`td`);
     secondCell.classList.add(`result__extra`);
-    secondCell.textContent  = `Бонус за жизни:`;
+    secondCell.textContent = `Бонус за жизни:`;
     let thirdCell = document.createElement(`td`);
     thirdCell.classList.add(`result__extra`);
     let thirdSpan = document.createElement(`span`);
@@ -290,10 +288,10 @@ export default class StatsScreen extends AbstractView {
     thirdCell.appendChild(thirdSpan);
     let fourthCell = document.createElement(`td`);
     fourthCell.classList.add(`result__points`);
-    fourthCell.textContent  = `× 50`;
+    fourthCell.textContent = `× 50`;
     let fifthCell = document.createElement(`td`);
     fifthCell.classList.add(`result__total`);
-    fifthCell.textContent  = points * 50;
+    fifthCell.textContent = points * 50;
     rowElement.appendChild(firstCell);
     rowElement.appendChild(secondCell);
     rowElement.appendChild(thirdCell);

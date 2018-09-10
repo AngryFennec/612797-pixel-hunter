@@ -1,5 +1,4 @@
 import AbstractView from './abstract.js';
-import updateState from './game-data.js'
 import {render, changeScreen2} from './util.js';
 
 export default class GameObject extends AbstractView {
@@ -65,9 +64,5 @@ export default class GameObject extends AbstractView {
       return `fast`;
     }
     return `usual`;
-  }
-
-  finish(state) {
-    Application.showStats(state);
   }
 }

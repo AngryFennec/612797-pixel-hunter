@@ -32,13 +32,15 @@ export default class GameThree extends GameObject {
   }
 
   checkAnswer(task, select) {
+    console.log(task.rightAnswer + ' ' + select);
     return (task.rightAnswer === Number(select));
   }
 
   bind() {
     const gameOptions = Array.prototype.slice.call(this.element.querySelectorAll(`.game__option`));
     const onGameOptionClick = () => {
-      const chosen = document.querySelector(`.game__option--selected`);
+      const chosen = this.element.querySelector(`.game__option--selected`);
+      console.log(chosen);
       if (!this.checkAnswer(this.task, chosen.value) && this.state.lives === 1) {
         this.state.answers[this.number] = false;
         Application.showStats(this.state);
@@ -50,7 +52,7 @@ export default class GameThree extends GameObject {
         }
         changeScreen2(this.state.levels[this.number + 1]);
       } else {
-        this.state.answers[this.number] = true;
+        this.state.answers[this.number] = this.checkTime(this.state.time);
         if (this.number === 9) {
           Application.showStats(this.state);
         }

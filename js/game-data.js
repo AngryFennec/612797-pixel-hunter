@@ -133,7 +133,19 @@ export const tick = (obj) => {
   state = Object.assign({}, state, {
     time: state.time - 1
   });
-  obj.renewTimer(state);
+  if (state.time === 0) {
+    state = Object.assign({}, state, {
+      lives: state.lives - 1
+    });
+    if (state.lives > 0) {
+      obj.changeToNextLevel();
+    }
+    else {
+      obj.finish(state);
+    }
+  } else {
+    obj.renewTimer(state);
+  }
 };
 
 let timer;

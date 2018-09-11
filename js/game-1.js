@@ -70,8 +70,9 @@ export default class GameOne extends GameObject {
           this.state.answers[this.number] = this.checkTime(this.state.time);
           if (this.number === 9) {
             Application.showStats(this.state);
+          } else {
+            changeScreen2(this.state.levels[this.number + 1]);
           }
-          changeScreen2(this.state.levels[this.number + 1]);
         }
       }
     });

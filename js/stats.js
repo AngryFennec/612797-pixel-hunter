@@ -9,7 +9,7 @@ export default class StatsScreen extends AbstractView {
 
   get template() {
     let title = `Поражение :(`;
-    if (this.state.answers[10]) {
+    if (this.state.answers[9]) {
       title = `Победа!`;
     }
     return `<header class="header">
@@ -25,91 +25,6 @@ export default class StatsScreen extends AbstractView {
   </header>
   <section class="result">
     <h2 class="result__title">${title}</h2>
-    <table class="result__table">
-      <tr>
-        <td class="result__number">1.</td>
-        <td colspan="2">
-        </td>
-        <td class="result__points">× 100</td>
-        <td class="result__total">900</td>
-      </tr>
-      <tr>
-        <td></td>
-        <td class="result__extra">Бонус за скорость:</td>
-        <td class="result__extra">1 <span class="stats__result stats__result--fast"></span></td>
-        <td class="result__points">× 50</td>
-        <td class="result__total">50</td>
-      </tr>
-      <tr>
-        <td></td>
-        <td class="result__extra">Бонус за жизни:</td>
-        <td class="result__extra">2 <span class="stats__result stats__result--alive"></span></td>
-        <td class="result__points">× 50</td>
-        <td class="result__total">100</td>
-      </tr>
-      <tr>
-        <td></td>
-        <td class="result__extra">Штраф за медлительность:</td>
-        <td class="result__extra">2 <span class="stats__result stats__result--slow"></span></td>
-        <td class="result__points">× 50</td>
-        <td class="result__total">-100</td>
-      </tr>
-      <tr>
-        <td colspan="5" class="result__total  result__total--final">950</td>
-      </tr>
-    </table>
-    <table class="result__table">
-      <tr>
-        <td class="result__number">2.</td>
-        <td>
-          <ul class="stats">
-            <li class="stats__result stats__result--wrong"></li>
-            <li class="stats__result stats__result--slow"></li>
-            <li class="stats__result stats__result--fast"></li>
-            <li class="stats__result stats__result--correct"></li>
-            <li class="stats__result stats__result--wrong"></li>
-            <li class="stats__result stats__result--unknown"></li>
-            <li class="stats__result stats__result--slow"></li>
-            <li class="stats__result stats__result--wrong"></li>
-            <li class="stats__result stats__result--fast"></li>
-            <li class="stats__result stats__result--wrong"></li>
-          </ul>
-        </td>
-        <td class="result__total"></td>
-        <td class="result__total  result__total--final">fail</td>
-      </tr>
-    </table>
-    <table class="result__table">
-      <tr>
-        <td class="result__number">3.</td>
-        <td colspan="2">
-          <ul class="stats">
-            <li class="stats__result stats__result--wrong"></li>
-            <li class="stats__result stats__result--slow"></li>
-            <li class="stats__result stats__result--fast"></li>
-            <li class="stats__result stats__result--correct"></li>
-            <li class="stats__result stats__result--wrong"></li>
-            <li class="stats__result stats__result--unknown"></li>
-            <li class="stats__result stats__result--slow"></li>
-            <li class="stats__result stats__result--unknown"></li>
-            <li class="stats__result stats__result--fast"></li>
-            <li class="stats__result stats__result--unknown"></li>
-          </ul>
-        </td>
-        <td class="result__points">× 100</td>
-        <td class="result__total">900</td>
-      </tr>
-      <tr>
-        <td></td>
-        <td class="result__extra">Бонус за жизни:</td>
-        <td class="result__extra">2 <span class="stats__result stats__result--alive"></span></td>
-        <td class="result__points">× 50</td>
-        <td class="result__total">100</td>
-      </tr>
-      <tr>
-        <td colspan="5" class="result__total  result__total--final">950</td>
-      </tr>
-    </table>
   </section>`;
   }
 
@@ -166,7 +81,8 @@ export default class StatsScreen extends AbstractView {
       thirdCell.classList.add(`result__points`);
       thirdCell.textContent = `× 100`;
       fourthCell.classList.add(`result__total`);
-      fourthCell.textContent = this.calculateAll(ulElement);
+      fourthCell.setAttribute(`colspan`, `2`);
+      fourthCell.textContent = (this.calculateUsual(ulElement) + this.calculateFast(ulElement) + this.calculateSlow(ulElement)) * 100;
       secondCell.appendChild(ulElement);
       rowElement.appendChild(firstCell);
       rowElement.appendChild(secondCell);
@@ -182,6 +98,7 @@ export default class StatsScreen extends AbstractView {
       if (this.calculateSlow(ulElement) !== 0) {
         tableElement.appendChild(this.createSlowRow(ulElement));
       }
+      tableElement.appendChild(this.createTotal(ulElement));
     }
     const resultTable = this.element.querySelector(`.result`);
     resultTable.appendChild(tableElement);
@@ -210,8 +127,8 @@ export default class StatsScreen extends AbstractView {
   calculateAll(element) {
     let sum = 0;
     sum += this.calculateUsual(element) * 100;
-    sum += this.calculateFast(element) * 50;
-    sum -= this.calculateSlow(element) * 50;
+    sum += this.calculateFast(element) * 150;
+    sum += this.calculateSlow(element) * 50;
     sum += this.state.lives * 50;
     return sum;
   }
@@ -297,6 +214,17 @@ export default class StatsScreen extends AbstractView {
     rowElement.appendChild(thirdCell);
     rowElement.appendChild(fourthCell);
     rowElement.appendChild(fifthCell);
+    return rowElement;
+  }
+
+  createTotal(element) {
+    const rowElement = document.createElement(`tr`);
+    let firstCell = document.createElement(`td`);
+    firstCell.classList.add(`result__total`);
+    firstCell.classList.add(`result__total--final`);
+    firstCell.setAttribute(`colspan`, `5`);
+    firstCell.textContent = this.calculateAll(element);
+    rowElement.appendChild(firstCell);
     return rowElement;
   }
 }

@@ -163,4 +163,10 @@ export const stopTimer = () => {
   clearTimeout(timer);
 };
 
+export const clearState = () => {
+  state = Object.assign({}, state, {
+    lives: 3
+  });
+};
+
 export default state;

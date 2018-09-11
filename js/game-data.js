@@ -163,4 +163,22 @@ export const stopTimer = () => {
   clearTimeout(timer);
 };
 
+export const resetState = () => {
+  state = Object.assign({}, state, {
+    lives: 3,
+    answers: {
+      1: ``,
+      2: ``,
+      3: ``,
+      4: ``,
+      5: ``,
+      6: ``,
+      7: ``,
+      8: ``,
+      9: ``,
+      10: ``
+    }
+  });
+};
+
 export default state;

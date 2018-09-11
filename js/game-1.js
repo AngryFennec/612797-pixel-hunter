@@ -57,20 +57,25 @@ export default class GameOne extends GameObject {
       if (checkedOptions.length >= 2) {
         if (!this.checkAnswer(this.task, checkedOptions) && this.state.lives === 1) {
           this.state.answers[this.number] = false;
+          gameForm.reset();
           Application.showStats(this.state);
         } else if (!this.checkAnswer(this.task, checkedOptions)) {
           this.state.lives--;
           this.state.answers[this.number] = false;
           if (this.number === 9) {
+            gameForm.reset();
             Application.showStats(this.state);
           } else {
+            gameForm.reset();
             changeScreen2(this.state.levels[this.number + 1]);
           }
         } else {
           this.state.answers[this.number] = this.checkTime(this.state.time);
           if (this.number === 9) {
+            gameForm.reset();
             Application.showStats(this.state);
           } else {
+            gameForm.reset();
             changeScreen2(this.state.levels[this.number + 1]);
           }
         }

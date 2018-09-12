@@ -1,7 +1,7 @@
 import {changeScreen, changeScreen2} from './util.js';
 import Intro from './intro.js';
-import screens from './screens.js';
 import AbstractView from './abstract.js';
+import GameModel from './game-model.js';
 
 export default class Rules extends AbstractView {
   constructor() {
@@ -48,7 +48,7 @@ export default class Rules extends AbstractView {
         rulesBtn.disabled = false;
       }
     });
-    rulesBtn.addEventListener(`click`, () => changeScreen2(screens[0]));
+    rulesBtn.addEventListener(`click`, () => changeScreen2(GameModel.state.levels[0]));
     const backBtn = this.element.querySelector(`.back`);
     backBtn.onClick = () => changeScreen(new Intro().element);
   }

@@ -1,6 +1,5 @@
 import {changeScreen} from './util.js';
 import Greeting from './greeting.js';
-import state from './game-data.js';
 import AbstractView from './abstract.js';
 
 export default class Intro extends AbstractView {
@@ -17,8 +16,6 @@ export default class Intro extends AbstractView {
 
   bind() {
     const toGreetingBtn = this.element.querySelector(`.intro__asterisk`);
-    state.lives = 3;
-    state.level = 0;
     toGreetingBtn.addEventListener(`click`, () => {
       changeScreen(new Greeting().element);
     });

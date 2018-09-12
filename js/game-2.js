@@ -1,7 +1,7 @@
 import GameObject from './game-object.js';
 import GameHeader from './game-header.js';
 import StatsList from './stats-list.js';
-import StatsScreen from './stats.js';
+import Application from './application.js';
 import Intro from './intro.js';
 import {changeScreen, changeScreen2} from './util.js';
 
@@ -36,26 +36,35 @@ export default class GameTwo extends GameObject {
     return (task.rightAnswer === select);
   }
 
+
   bind() {
     const gameOptions = Array.prototype.slice.call(this.element.querySelectorAll(`.game__answer input[type="radio"]`));
+    const gameForm = this.element.querySelector(`.game__content`);
     const onRadioClick = (evt) => {
       const chosen = evt.target.value;
       if (!this.checkAnswer(this.task, chosen) && this.state.lives === 1) {
         this.state.answers[this.number] = false;
-        changeScreen(new StatsScreen().element);
+        gameForm.reset();
+        Application.showStats(this.state);
       } else if (!this.checkAnswer(this.task, chosen)) {
         this.state.lives--;
         this.state.answers[this.number] = false;
         if (this.number === 9) {
-          changeScreen(new StatsScreen().element);
+          gameForm.reset();
+          Application.showStats(this.state);
+        } else {
+          gameForm.reset();
+          changeScreen2(this.state.levels[this.number + 1]);
         }
-        changeScreen2(this.state.levels[this.number + 1]);
       } else {
-        this.state.answers[this.number] = true;
+        this.state.answers[this.number] = this.checkTime(this.state.time);
         if (this.number === 9) {
-          changeScreen(new StatsScreen().element);
+          gameForm.reset();
+          Application.showStats(this.state);
+        } else {
+          gameForm.reset();
+          changeScreen2(this.state.levels[this.number + 1]);
         }
-        changeScreen2(this.state.levels[this.number + 1]);
       }
     };
     gameOptions.forEach(function (it) {

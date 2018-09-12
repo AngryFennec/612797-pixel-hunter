@@ -1,7 +1,7 @@
 import GameObject from './game-object.js';
 import GameHeader from './game-header.js';
 import StatsList from './stats-list.js';
-import StatsScreen from './stats.js';
+import Application from './application.js';
 import Intro from './intro.js';
 import {changeScreen, changeScreen2} from './util.js';
 
@@ -21,7 +21,7 @@ export default class GameThree extends GameObject {
         <div class="game__option">
           <img src="${this.task.imgFirst}" alt="Option 1" width="304" height="455">
         </div>
-        <div class="game__option  game__option--selected">
+        <div class="game__option">
           <img src="${this.task.imgSecond}" alt="Option 2" width="304" height="455">
         </div>
         <div class="game__option">
@@ -30,30 +30,44 @@ export default class GameThree extends GameObject {
       </form>` + stats;
   }
 
-  checkAnswer(task, select) {
-    return (task.rightAnswer === Number(select));
+  checkAnswer(task, options) {
+    let j = 10;
+    for (let i = 0; i < options.length; i++) {
+      if (options[i].querySelector(`.game__option--selected-image`)) {
+        j = i + 1;
+      }
+    }
+    return (task.rightAnswer === j);
   }
 
   bind() {
     const gameOptions = Array.prototype.slice.call(this.element.querySelectorAll(`.game__option`));
-    const onGameOptionClick = () => {
-      const chosen = document.querySelector(`.game__option--selected`);
-      if (!this.checkAnswer(this.task, chosen.value) && this.state.lives === 1) {
+    const gameForm = this.element.querySelector(`.game__content`);
+    const onGameOptionClick = (evt) => {
+      evt.target.classList.add(`game__option--selected-image`);
+      if (!this.checkAnswer(this.task, gameOptions) && this.state.lives === 1) {
         this.state.answers[this.number] = false;
-        changeScreen(new StatsScreen().element);
-      } else if (!this.checkAnswer(this.task, chosen.value)) {
+        gameForm.reset();
+        Application.showStats(this.state);
+      } else if (!this.checkAnswer(this.task, gameOptions)) {
         this.state.lives--;
         this.state.answers[this.number] = false;
         if (this.number === 9) {
-          changeScreen(new StatsScreen().element);
+          gameForm.reset();
+          Application.showStats(this.state);
+        } else {
+          gameForm.reset();
+          changeScreen2(this.state.levels[this.number + 1]);
         }
-        changeScreen2(this.state.levels[this.number + 1]);
       } else {
-        this.state.answers[this.number] = true;
+        this.state.answers[this.number] = this.checkTime(this.state.time);
         if (this.number === 9) {
-          changeScreen(new StatsScreen().element);
+          gameForm.reset();
+          Application.showStats(this.state);
+        } else {
+          gameForm.reset();
+          changeScreen2(this.state.levels[this.number + 1]);
         }
-        changeScreen2(this.state.levels[this.number + 1]);
       }
     };
     gameOptions.forEach(function (it) {

@@ -1,4 +1,4 @@
-import {changeScreen} from './util.js';
+import {changeScreen, changeScreen2} from './util.js';
 import Intro from './intro.js';
 import screens from './screens.js';
 import AbstractView from './abstract.js';
@@ -48,7 +48,7 @@ export default class Rules extends AbstractView {
         rulesBtn.disabled = false;
       }
     });
-    rulesBtn.addEventListener(`click`, () => changeScreen(screens[0].element));
+    rulesBtn.addEventListener(`click`, () => changeScreen2(screens[0]));
     const backBtn = this.element.querySelector(`.back`);
     backBtn.onClick = () => changeScreen(new Intro().element);
   }

@@ -1,4 +1,5 @@
 import GameModel from './game-model.js';
+import Application from './application.js';
 const TIME_LIMIT = 30;
 const ONE_SECOND = 1000;
 
@@ -13,7 +14,7 @@ export const tick = (obj) => {
     if (GameModel.state.lives > 0) {
       obj.changeToNextLevel();
     } else {
-      obj.finish(GameModel.state);
+      Application.showStats(GameModel.state);
     }
   } else {
     obj.renewTimer(GameModel.state);

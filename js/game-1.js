@@ -3,8 +3,7 @@ import GameModel from './game-model.js';
 import GameHeader from './game-header.js';
 import StatsList from './stats-list.js';
 import Application from './application.js';
-import Intro from './intro.js';
-import {changeScreen, changeScreen2} from './util.js';
+import {changeScreen2} from './util.js';
 
 export default class GameOne extends GameObject {
   constructor(task, number) {
@@ -56,7 +55,7 @@ export default class GameOne extends GameObject {
       });
       if (checkedOptions.length >= 2) {
         if (!this.checkAnswer(this.task, checkedOptions) && GameModel.state.lives === 1) {
-          this.state.answers[this.number] = false;
+          GameModel.state.answers[this.number] = false;
           gameForm.reset();
           Application.showStats(GameModel.state);
         } else if (!this.checkAnswer(this.task, checkedOptions)) {
@@ -83,7 +82,7 @@ export default class GameOne extends GameObject {
     });
     const backBtn = this.element.querySelector(`.back`);
     backBtn.addEventListener(`click`, () => {
-      changeScreen(new Intro().element);
+      Application.showWelcome();
     });
   }
 }

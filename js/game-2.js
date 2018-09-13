@@ -3,8 +3,7 @@ import GameModel from './game-model.js';
 import GameHeader from './game-header.js';
 import StatsList from './stats-list.js';
 import Application from './application.js';
-import Intro from './intro.js';
-import {changeScreen, changeScreen2} from './util.js';
+import {changeScreen2} from './util.js';
 
 export default class GameTwo extends GameObject {
   constructor(task, number) {
@@ -73,7 +72,7 @@ export default class GameTwo extends GameObject {
 
     const backBtn = this.element.querySelector(`.back`);
     backBtn.addEventListener(`click`, () => {
-      changeScreen(new Intro().element);
+      Application.showWelcome();
     });
   }
 }

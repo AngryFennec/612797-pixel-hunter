@@ -18,7 +18,7 @@ const checkStatus = (response) => {
 export default class Application {
 
   static showWelcome() {
-    //  GameModel.resetState();
+    GameModel.resetState();
     GameModel.init(gameData);
     const welcome = new Intro();
     changeScreen(welcome.element);

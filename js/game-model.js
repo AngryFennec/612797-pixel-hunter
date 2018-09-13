@@ -20,4 +20,24 @@ export default class GameModel {
     this.state.levels = new ScreensCreator(data).createLevels();
   }
 
+
+  static resetState() {
+    this.state = Object.assign({}, this.state, {
+      lives: 3,
+      answers: {
+        1: ``,
+        2: ``,
+        3: ``,
+        4: ``,
+        5: ``,
+        6: ``,
+        7: ``,
+        8: ``,
+        9: ``,
+        10: ``
+      }
+    });
+  }
+
+
 }

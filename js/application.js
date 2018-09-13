@@ -1,6 +1,6 @@
 import {changeScreen} from './util.js';
-import Intro from './intro.js';
 import StatsScreen from './stats.js';
+import Intro from './intro.js';
 import ErrorScreen from './error.js';
 import GameModel from './game-model.js';
 import {stopTimer} from './timer.js';

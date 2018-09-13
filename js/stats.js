@@ -122,17 +122,24 @@ export default class StatsScreen extends AbstractView {
     const liElements = Array.prototype.slice.call(element.querySelectorAll(`li.stats__result`));
     for (let i = 0; i < liElements.length; i++) {
       let newLi = liElements[i];
+      newLi.classList.add(`stats__result--unknown`);
       if (this.state.answers[i] === `usual`) {
+        newLi.classList.remove(`stats__result--unknown`);
         newLi.classList.remove(`stats__result--wrong`);
         newLi.classList.add(`stats__result--correct`);
       } else if (this.state.answers[i] === `slow`) {
+        newLi.classList.remove(`stats__result--unknown`);
         newLi.classList.remove(`stats__result--wrong`);
         newLi.classList.add(`stats__result--slow`);
       } else if (this.state.answers[i] === `fast`) {
+        newLi.classList.remove(`stats__result--unknown`);
         newLi.classList.remove(`stats__result--wrong`);
         newLi.classList.add(`stats__result--fast`);
       } else {
-        newLi.classList.add(`stats__result--wrong`);
+        if (!(this.state.answers[i] === ``)) {
+          newLi.classList.remove(`stats__result--unknown`);
+          newLi.classList.add(`stats__result--wrong`);
+        }
       }
     }
   }

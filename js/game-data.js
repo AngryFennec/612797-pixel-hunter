@@ -2,6 +2,7 @@ const NUM = 10;
 const LEVEL_NUMBER = 10;
 const TIME_LIMIT = 30;
 export const LIVES = 3;
+
 export const INITIAL_GAME = Object.freeze({
   level: 0,
   lives: 3,

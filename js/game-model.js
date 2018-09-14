@@ -1,5 +1,6 @@
 import state from './game-data.js';
 import ScreensCreator from './screens.js';
+import LIVES from './game-data.js';
 
 export default class GameModel {
   static setData(data) {
@@ -23,7 +24,7 @@ export default class GameModel {
 
   static resetState() {
     this.state = Object.assign({}, this.state, {
-      lives: 3,
+      lives: LIVES,
       answers: {
         1: ``,
         2: ``,

@@ -1,6 +1,7 @@
 import AbstractView from './abstract.js';
 import GameModel from './game-model.js';
 
+const LIVES = 3;
 
 export default class GameHeader extends AbstractView {
   constructor() {
@@ -20,7 +21,7 @@ export default class GameHeader extends AbstractView {
     </button>
     <div class="game__timer">${GameModel.state.time}</div>
     <div class="game__lives">
-      ${new Array(3 - GameModel.state.lives)
+      ${new Array(LIVES - GameModel.state.lives)
         .fill(`<img src="img/heart__empty.svg" class="game__heart" alt=" Missed Life" width="31" height="27">`)
         .join(``)}
       ${new Array(GameModel.state.lives)

@@ -16,7 +16,7 @@ const toJSON = (res) => res.json();
 
 export default class Loader {
   static loadData() {
-    return fetch(`${SERVER_URL}/stats/${APP_ID}-${name}`).then(checkStatus).then(toJSON);
+    return fetch(`${SERVER_URL}/questions`).then(checkStatus).then(toJSON);
   }
 
   static loadResults(name = DEFAULT_NAME) {
@@ -28,7 +28,7 @@ export default class Loader {
       answers: [],
       lives: GameModel.state.lives
     };
-    for (let i = 0; i < 10; i++) {
+    for (let i = 0; i < GameModel.state.count; i++) {
       dataToSend.answers.push(GameModel.state.answers[i]);
     }
     data = Object.assign({name}, data);

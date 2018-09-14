@@ -9,7 +9,7 @@ export default class ScreensCreator {
   }
 
   getCurrentLevel(task, number) {
-    let gameObject = new GameObject();
+    let gameObject = new GameObject(task, number);
     switch (task.type) {
       case `two-of-two`: {
         gameObject = new GameOne(task, number);

@@ -2,6 +2,9 @@ import Application from './application.js';
 import AbstractView from './abstract.js';
 import {render} from './util.js';
 
+const BONUS = 50;
+const USUAL = 100;
+
 export default class StatsScreen extends AbstractView {
   constructor(state) {
     super();
@@ -10,7 +13,7 @@ export default class StatsScreen extends AbstractView {
 
   getScoreTemplate(data, number) {
     let resultTemplate = ``;
-    if (data.answers[9]) {
+    if (data.answers[this.state.count - 1]) {
       resultTemplate = `<table class="result__table">
         <tr>
           <td class="result__number">${number}.</td>
@@ -97,7 +100,7 @@ export default class StatsScreen extends AbstractView {
     let resultTemplate = ``;
     let title = `Поражение :(`;
     let scoreTemplate = this.getScoreTemplate(this.state, 1);
-    if (this.state.answers[9]) {
+    if (this.state.answers[this.state.count - 1]) {
       title = `Победа!`;
     }
     resultTemplate = `<section class="result"><h2 class="result__title">${title}</h2>` + scoreTemplate + `</section>`;
@@ -189,7 +192,13 @@ export default class StatsScreen extends AbstractView {
 
   isFail(element) {
     let fails = Array.prototype.slice.call(element.querySelectorAll(`.stats__result--wrong`));
-    return (fails.length >= 3);
+    let emptys = [];
+    for (let i = 0; i < this.state.count; i++) {
+      if (this.state.answers[i] === ``) {
+        emptys.push(``);
+      }
+    }
+    return (fails.length >= 3 || emptys.length >= 1);
   }
 
   fillFast(element) {
@@ -198,7 +207,7 @@ export default class StatsScreen extends AbstractView {
       let numberElement = element.querySelector(`.result__extra--col`);
       numberElement.textContent = fasts;
       let totalElement = element.querySelector(`.result__total`);
-      totalElement.textContent = fasts * 50;
+      totalElement.textContent = fasts * BONUS;
     } else {
       element.innerHTML = ``;
     }
@@ -210,7 +219,7 @@ export default class StatsScreen extends AbstractView {
       let numberElement = element.querySelector(`.result__extra--col`);
       numberElement.textContent = slows;
       let totalElement = element.querySelector(`.result__total`);
-      totalElement.textContent = slows * (-50);
+      totalElement.textContent = slows * (-BONUS);
     } else {
       element.innerHTML = ``;
     }
@@ -222,7 +231,7 @@ export default class StatsScreen extends AbstractView {
       let numberElement = element.querySelector(`.result__extra--col`);
       numberElement.textContent = lives;
       let totalElement = element.querySelector(`.result__total`);
-      totalElement.textContent = lives * 50;
+      totalElement.textContent = lives * BONUS;
     } else {
       element.innerHTML = ``;
     }
@@ -245,10 +254,10 @@ export default class StatsScreen extends AbstractView {
 
   calculateAll(element) {
     let sum = 0;
-    sum += this.calculateUsual(element) * 100;
-    sum += this.calculateFast(element) * 150;
-    sum += this.calculateSlow(element) * 50;
-    sum += this.state.lives * 50;
+    sum += this.calculateUsual(element) * USUAL;
+    sum += this.calculateFast(element) * (USUAL + BONUS);
+    sum += this.calculateSlow(element) * BONUS;
+    sum += this.state.lives * BONUS;
     return sum;
   }
 }

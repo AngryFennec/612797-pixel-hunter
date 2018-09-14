@@ -35,9 +35,13 @@ export default class GameObject extends AbstractView {
       let newLi = document.createElement(`li`);
       newLi.classList.add(`stats__result`);
       newLi.classList.add(`stats__result--unknown`);
+      newLi.classList.remove(`stats__result--correct`);
+      newLi.classList.remove(`stats__result--fast`);
+      newLi.classList.remove(`stats__result--slow`);
+      newLi.classList.remove(`stats__result--wrong`);
       if (!GameModel.state.answers[i] && i < this.number) {
         newLi.classList.add(`stats__result--wrong`);
-      } else if (GameModel.state.answers[i] === `usual`) {
+      } else if (GameModel.state.answers[i] === `correct`) {
         newLi.classList.add(`stats__result--correct`);
       } else if (GameModel.state.answers[i] === `slow`) {
         newLi.classList.add(`stats__result--slow`);

@@ -23,9 +23,10 @@ export default class GameModel {
 
 
   static resetState() {
-    this.state = Object.assign({}, this.state, {
+    GameModel.state = Object.assign({}, GameModel.state, {
       lives: LIVES,
       answers: {
+        0: ``,
         1: ``,
         2: ``,
         3: ``,
@@ -34,10 +35,14 @@ export default class GameModel {
         6: ``,
         7: ``,
         8: ``,
-        9: ``,
-        10: ``
+        9: ``
       }
     });
+    for (let i = 0; i < GameModel.state.count; i++) {
+      GameModel.state.answers[i] = ``;
+      state.answers[i] = ``;
+    }
+
   }
 
 

@@ -181,7 +181,7 @@ export default class StatsScreen extends AbstractView {
   fillTotal(element) {
     let totalElement = element.querySelector(`.result__total--usual`);
     totalElement.innerHTML = ``;
-    totalElement.textContent = (this.calculateUsual(element) + this.calculateFast(element) + this.calculateSlow(element)) * 100;
+    totalElement.textContent = this.calculateAll(element);
   }
 
   fillTotalFinal(element) {

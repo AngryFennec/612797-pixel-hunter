@@ -130,11 +130,12 @@ let state = {
 
 export const getState = () => {
   return state;
-}
+};
+
 export const resetInnerState = () => {
   for (let i = 0; i < state.count; i++) {
     state.answers[i] = ``;
   }
-}
+};
 
 export default getState;

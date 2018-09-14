@@ -53,8 +53,8 @@ describe(`Check level changer`, () => {
   it(`should not allow set negative values`, () => {
     assert.throws(() => changeLevel(INITIAL_GAME, -1).level, /Level should not be negative value/);
   });
-  it(`should be less than LEVEL_LIMIT`, () => {
-    assert.throws(() => changeLevel(INITIAL_GAME, 102).level, /Level should not be greater than LEVEL_LIMIT/);
+  it(`should be less than LEVEL_NUMBER`, () => {
+    assert.throws(() => changeLevel(INITIAL_GAME, 102).level, /Level should not be greater than LEVEL_NUMBER/);
   });
 
   it(`should not allow set non number value`, () => {

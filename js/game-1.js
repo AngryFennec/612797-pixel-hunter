@@ -24,7 +24,7 @@ export default class GameOne extends GameObject {
           <span>Фото</span>
         </label>
         <label class="game__answer game__answer--paint">
-          <input class="visually-hidden" name="question1" type="radio" value="paint">
+          <input class="visually-hidden" name="question1" type="radio" value="painting">
           <span>Рисунок</span>
         </label>
       </div>
@@ -35,7 +35,7 @@ export default class GameOne extends GameObject {
           <span>Фото</span>
         </label>
         <label class="game__answer  game__answer--paint">
-          <input class="visually-hidden" name="question2" type="radio" value="paint">
+          <input class="visually-hidden" name="question2" type="radio" value="painting">
           <span>Рисунок</span>
         </label>
       </div>
@@ -61,7 +61,7 @@ export default class GameOne extends GameObject {
         } else if (!this.checkAnswer(this.task, checkedOptions)) {
           GameModel.state.lives--;
           GameModel.state.answers[this.number] = false;
-          if (this.number === 9) {
+          if (this.number === GameModel.state.count - 1) {
             gameForm.reset();
             Application.showStats(GameModel.state);
           } else {
@@ -70,7 +70,7 @@ export default class GameOne extends GameObject {
           }
         } else {
           GameModel.state.answers[this.number] = this.checkTime(GameModel.state.time);
-          if (this.number === 9) {
+          if (this.number === GameModel.state.count - 1) {
             gameForm.reset();
             Application.showStats(GameModel.state);
           } else {

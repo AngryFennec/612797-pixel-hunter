@@ -2,6 +2,10 @@ import AbstractView from './abstract.js';
 import GameModel from './game-model.js';
 import {render, changeScreen2} from './util.js';
 
+const FAST_TIME = 20;
+const SLOW_TIME = 10;
+const LIVES = 3;
+
 export default class GameObject extends AbstractView {
   constructor(task, number) {
     super();
@@ -14,7 +18,7 @@ export default class GameObject extends AbstractView {
     let headerLives = this.element.querySelector(`.game__lives`);
     headerLives.innerHTML = ``;
     const newHeaderString = `<div class="game__lives">
-      ${new Array(3 - GameModel.state.lives)
+      ${new Array(LIVES - GameModel.state.lives)
         .fill(`<img src="img/heart__empty.svg" class="game__heart" alt=" Missed Life" width="31" height="27">`)
         .join(``)}
       ${new Array(GameModel.state.lives)
@@ -27,13 +31,17 @@ export default class GameObject extends AbstractView {
   renewStats() {
     let statsRow = this.element.querySelector(`.stats`);
     statsRow.innerHTML = ``;
-    for (let i = 0; i < 10; i++) {
+    for (let i = 0; i < GameModel.state.count; i++) {
       let newLi = document.createElement(`li`);
       newLi.classList.add(`stats__result`);
       newLi.classList.add(`stats__result--unknown`);
+      newLi.classList.remove(`stats__result--correct`);
+      newLi.classList.remove(`stats__result--fast`);
+      newLi.classList.remove(`stats__result--slow`);
+      newLi.classList.remove(`stats__result--wrong`);
       if (!GameModel.state.answers[i] && i < this.number) {
         newLi.classList.add(`stats__result--wrong`);
-      } else if (GameModel.state.answers[i] === `usual`) {
+      } else if (GameModel.state.answers[i] === `correct`) {
         newLi.classList.add(`stats__result--correct`);
       } else if (GameModel.state.answers[i] === `slow`) {
         newLi.classList.add(`stats__result--slow`);
@@ -47,9 +55,9 @@ export default class GameObject extends AbstractView {
   renewTimer(state) {
     GameModel.state = state;
     let timerDiv = this.element.querySelector(`.game__timer`);
-
     timerDiv.textContent = GameModel.state.time;
   }
+
 
   changeToNextLevel() {
     GameModel.state.answers[this.number] = false;
@@ -57,12 +65,12 @@ export default class GameObject extends AbstractView {
   }
 
   checkTime(time) {
-    if (time < 10) {
+    if (time < SLOW_TIME) {
       return `slow`;
     }
-    if (time >= 20) {
+    if (time >= FAST_TIME) {
       return `fast`;
     }
-    return `usual`;
+    return `correct`;
   }
 }

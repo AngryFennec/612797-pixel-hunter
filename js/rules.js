@@ -48,7 +48,10 @@ export default class Rules extends AbstractView {
         rulesBtn.disabled = false;
       }
     });
-    rulesBtn.addEventListener(`click`, () => changeScreen2(GameModel.state.levels[0]));
+    rulesBtn.addEventListener(`click`, () => {
+      GameModel.state.name = rulesInput.value;
+      changeScreen2(GameModel.state.levels[0]);
+    });
     const backBtn = this.element.querySelector(`.back`);
     backBtn.onClick = () => changeScreen(new Intro().element);
   }

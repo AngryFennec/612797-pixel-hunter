@@ -1,7 +1,7 @@
 const NUM = 10;
+const LEVEL_NUMBER = 10;
 const TIME_LIMIT = 30;
-const LEVEL_LIMIT = 10;
-const LIVES = 3;
+export const LIVES = 3;
 export const INITIAL_GAME = Object.freeze({
   level: 0,
   lives: 3,
@@ -60,8 +60,8 @@ export const changeLevel = (game, level) => {
   if (level < 0) {
     throw new Error(`Level should not be negative value`);
   }
-  if (level > LEVEL_LIMIT) {
-    throw new Error(`Level should not be greater than LEVEL_LIMIT`);
+  if (level > LEVEL_NUMBER) {
+    throw new Error(`Level should not be greater than LEVEL_NUMBER`);
   }
   const newGame = Object.assign({}, game, {
     level
@@ -110,9 +110,12 @@ export const changeTime = (game, time) => {
   /* module4-task1 */
 export let state = {
   level: 0,
-  lives: 3,
-  time: 30,
+  lives: LIVES,
+  time: TIME_LIMIT,
+  count: LEVEL_NUMBER,
+  name: ``,
   answers: {
+    0: ``,
     1: ``,
     2: ``,
     3: ``,
@@ -121,62 +124,9 @@ export let state = {
     6: ``,
     7: ``,
     8: ``,
-    9: ``,
-    10: ``
+    9: ``
   },
   levels: []
 };
-/*
-export const tick = (obj) => {
-  state = Object.assign({}, state, {
-    time: state.time - 1
-  });
-  if (state.time === 0) {
-    state = Object.assign({}, state, {
-      lives: state.lives - 1
-    });
-    if (state.lives > 0) {
-      obj.changeToNextLevel();
-    } else {
-      obj.finish(state);
-    }
-  } else {
-    obj.renewTimer(state);
-  }
-};
 
-let timer;
-
-export const startTimer = (obj) => {
-  obj.renewTimer(state);
-  timer = setTimeout(() => {
-    tick(obj);
-    startTimer(obj);
-  }, ONE_SECOND);
-};
-
-export const stopTimer = () => {
-  state = Object.assign({}, state, {
-    time: TIME_LIMIT
-  });
-  clearTimeout(timer);
-};
-*/
-export const resetState = () => {
-  state = Object.assign({}, state, {
-    lives: 3,
-    answers: {
-      1: ``,
-      2: ``,
-      3: ``,
-      4: ``,
-      5: ``,
-      6: ``,
-      7: ``,
-      8: ``,
-      9: ``,
-      10: ``
-    }
-  });
-};
 export default state;

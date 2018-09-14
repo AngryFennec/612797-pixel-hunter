@@ -32,11 +32,21 @@ export default class GameThree extends GameObject {
   checkAnswer(task, options) {
     let j = 10;
     let k = 20;
+    let rightAnswers = task.answers;
+    let photos = 0;
+    let paintings = 0;
+    rightAnswers.forEach(function (item) {
+      if (item.type === `photo`) {
+        photos++;
+      } else {
+        paintings++;
+      }
+    });
     for (let i = 0; i < options.length; i++) {
       if (options[i].querySelector(`.game__option--selected-image`)) {
         j = i;
       }
-      if (task.answers[i].type === `photo`) {
+      if ((paintings > photos && task.answers[i].type === `photo`) || (paintings < photos && task.answers[i].type === `painting`)) {
         k = i;
       }
     }
@@ -55,7 +65,7 @@ export default class GameThree extends GameObject {
       } else if (!this.checkAnswer(this.task, gameOptions)) {
         GameModel.state.lives--;
         GameModel.state.answers[this.number] = false;
-        if (this.number === 9) {
+        if (this.number === GameModel.state.count - 1) {
           gameForm.reset();
           Application.showStats(GameModel.state);
         } else {
@@ -64,7 +74,7 @@ export default class GameThree extends GameObject {
         }
       } else {
         GameModel.state.answers[this.number] = this.checkTime(GameModel.state.time);
-        if (this.number === 9) {
+        if (this.number === GameModel.state.count - 1) {
           gameForm.reset();
           Application.showStats(GameModel.state);
         } else {

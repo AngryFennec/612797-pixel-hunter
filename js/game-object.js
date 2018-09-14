@@ -56,6 +56,14 @@ export default class GameObject extends AbstractView {
     GameModel.state = state;
     let timerDiv = this.element.querySelector(`.game__timer`);
     timerDiv.textContent = GameModel.state.time;
+    if (GameModel.state.time <= 5) {
+      if (GameModel.state.time % 2 === 0) {
+        timerDiv.style.color = `black`;
+      } else {
+        timerDiv.style.color = `red`;
+      }
+
+    }
   }
 
 

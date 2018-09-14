@@ -2,7 +2,6 @@ const NUM = 10;
 const TIME_LIMIT = 30;
 const LEVEL_LIMIT = 10;
 const LIVES = 3;
-const ONE_SECOND = 1000;
 export const INITIAL_GAME = Object.freeze({
   level: 0,
   lives: 3,
@@ -113,6 +112,7 @@ export let state = {
   level: 0,
   lives: 3,
   time: 30,
+  name: ``,
   answers: {
     1: ``,
     2: ``,
@@ -127,7 +127,7 @@ export let state = {
   },
   levels: []
 };
-
+/*
 export const tick = (obj) => {
   state = Object.assign({}, state, {
     time: state.time - 1
@@ -162,6 +162,7 @@ export const stopTimer = () => {
   });
   clearTimeout(timer);
 };
+<<<<<<< HEAD
 
 export const clearState = () => {
   state = Object.assign({}, state, {
@@ -169,4 +170,24 @@ export const clearState = () => {
   });
 };
 
+=======
+*/
+export const resetState = () => {
+  state = Object.assign({}, state, {
+    lives: 3,
+    answers: {
+      1: ``,
+      2: ``,
+      3: ``,
+      4: ``,
+      5: ``,
+      6: ``,
+      7: ``,
+      8: ``,
+      9: ``,
+      10: ``
+    }
+  });
+};
+>>>>>>> d6889e4aaa6c5ba6cfedf893bce7b43aea48a900
 export default state;

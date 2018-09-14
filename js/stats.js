@@ -1,5 +1,6 @@
 import Application from './application.js';
 import AbstractView from './abstract.js';
+import {render} from './util.js';
 
 export default class StatsScreen extends AbstractView {
   constructor(state) {
@@ -7,12 +8,82 @@ export default class StatsScreen extends AbstractView {
     this.state = state;
   }
 
-  get template() {
-    let title = `Поражение :(`;
-    if (this.state.answers[9]) {
-      title = `Победа!`;
+  getScoreTemplate(data, number) {
+    let resultTemplate = ``;
+    if (data.answers[9]) {
+      resultTemplate = `<table class="result__table">
+        <tr>
+          <td class="result__number">${number}.</td>
+          <td colspan="2">
+          <ul class="stats">
+            <li class="stats__result stats__result--unknow"></li>
+            <li class="stats__result stats__result--unknown"></li>
+            <li class="stats__result stats__result--unknown"></li>
+            <li class="stats__result stats__result--unknown"></li>
+            <li class="stats__result stats__result--unknown"></li>
+            <li class="stats__result stats__result--unknown"></li>
+            <li class="stats__result stats__result--unknown"></li>
+            <li class="stats__result stats__result--unknown"></li>
+            <li class="stats__result stats__result--unknown"></li>
+            <li class="stats__result stats__result--unknown"></li>
+          </ul>
+          </td>
+          <td class="result__points">× 100</td>
+          <td class="result__total result__total--usual">900</td>
+        </tr>
+        <tr class="result__fast">
+          <td></td>
+          <td class="result__extra">Бонус за скорость:</td>
+          <td class="result__extra--col">1 <span class="stats__result stats__result--fast"></span></td>
+          <td class="result__points">× 50</td>
+          <td class="result__total">50</td>
+        </tr>
+        <tr class="result__lives">
+          <td></td>
+          <td class="result__extra">Бонус за жизни:</td>
+          <td class="result__extra--col">2 <span class="stats__result stats__result--alive"></span></td>
+          <td class="result__points">× 50</td>
+          <td class="result__total">100</td>
+        </tr>
+        <tr class="result__slow">
+          <td></td>
+          <td class="result__extra">Штраф за медлительность:</td>
+          <td class="result__extra--col">2 <span class="stats__result stats__result--slow"></span></td>
+          <td class="result__points">× 50</td>
+          <td class="result__total">-100</td>
+        </tr>
+        <tr>
+          <td colspan="5" class="result__total  result__total--final">950</td>
+        </tr>
+      </table>`;
+    } else {
+      resultTemplate = `<table class="result__table">
+        <tr>
+          <td class="result__number">${number}.</td>
+          <td>
+            <ul class="stats">
+              <li class="stats__result stats__result--unknow"></li>
+              <li class="stats__result stats__result--unknown"></li>
+              <li class="stats__result stats__result--unknown"></li>
+              <li class="stats__result stats__result--unknown"></li>
+              <li class="stats__result stats__result--unknown"></li>
+              <li class="stats__result stats__result--unknown"></li>
+              <li class="stats__result stats__result--unknown"></li>
+              <li class="stats__result stats__result--unknown"></li>
+              <li class="stats__result stats__result--unknown"></li>
+              <li class="stats__result stats__result--unknown"></li>
+            </ul>
+          </td>
+          <td class="result__total"></td>
+          <td class="result__total  result__total--final">fail</td>
+        </tr>
+      </table>`;
     }
-    return `<header class="header">
+    return resultTemplate;
+  }
+
+  get template() {
+    const headerTemplate = `<header class="header">
     <button class="back">
       <span class="visually-hidden">Вернуться к началу</span>
       <svg class="icon" width="45" height="45" viewBox="0 0 45 45" fill="#000000">
@@ -22,10 +93,85 @@ export default class StatsScreen extends AbstractView {
         <use xlink:href="img/sprite.svg#logo-small"></use>
       </svg>
     </button>
-  </header>
-  <section class="result">
-    <h2 class="result__title">${title}</h2>
-  </section>`;
+  </header>`;
+    let resultTemplate = ``;
+    let title = `Поражение :(`;
+    if (this.state.answers[9]) {
+      title = `Победа!`;
+      resultTemplate = `<section class="result">
+      <h2 class="result__title">${title}</h2>
+      <table class="result__table">
+        <tr>
+          <td class="result__number">3.</td>
+          <td colspan="2">
+          <ul class="stats">
+            <li class="stats__result stats__result--unknow"></li>
+            <li class="stats__result stats__result--unknown"></li>
+            <li class="stats__result stats__result--unknown"></li>
+            <li class="stats__result stats__result--unknown"></li>
+            <li class="stats__result stats__result--unknown"></li>
+            <li class="stats__result stats__result--unknown"></li>
+            <li class="stats__result stats__result--unknown"></li>
+            <li class="stats__result stats__result--unknown"></li>
+            <li class="stats__result stats__result--unknown"></li>
+            <li class="stats__result stats__result--unknown"></li>
+          </ul>
+          </td>
+          <td class="result__points">× 100</td>
+          <td class="result__total result__total--usual">900</td>
+        </tr>
+        <tr class="result__fast">
+          <td></td>
+          <td class="result__extra">Бонус за скорость:</td>
+          <td class="result__extra--col">1 <span class="stats__result stats__result--fast"></span></td>
+          <td class="result__points">× 50</td>
+          <td class="result__total">50</td>
+        </tr>
+        <tr class="result__lives">
+          <td></td>
+          <td class="result__extra">Бонус за жизни:</td>
+          <td class="result__extra--col">2 <span class="stats__result stats__result--alive"></span></td>
+          <td class="result__points">× 50</td>
+          <td class="result__total">100</td>
+        </tr>
+        <tr class="result__slow">
+          <td></td>
+          <td class="result__extra">Штраф за медлительность:</td>
+          <td class="result__extra--col">2 <span class="stats__result stats__result--slow"></span></td>
+          <td class="result__points">× 50</td>
+          <td class="result__total">-100</td>
+        </tr>
+        <tr>
+          <td colspan="5" class="result__total  result__total--final">950</td>
+        </tr>
+      </table>
+      </section>`;
+    } else {
+      resultTemplate = `<section class="result">
+      <h2 class="result__title">${title}</h2><table class="result__table">
+        <tr>
+          <td class="result__number">2.</td>
+          <td>
+            <ul class="stats">
+              <li class="stats__result stats__result--unknow"></li>
+              <li class="stats__result stats__result--unknown"></li>
+              <li class="stats__result stats__result--unknown"></li>
+              <li class="stats__result stats__result--unknown"></li>
+              <li class="stats__result stats__result--unknown"></li>
+              <li class="stats__result stats__result--unknown"></li>
+              <li class="stats__result stats__result--unknown"></li>
+              <li class="stats__result stats__result--unknown"></li>
+              <li class="stats__result stats__result--unknown"></li>
+              <li class="stats__result stats__result--unknown"></li>
+            </ul>
+          </td>
+          <td class="result__total"></td>
+          <td class="result__total  result__total--final">fail</td>
+        </tr>
+      </table>
+      </section>`;
+    }
+    return headerTemplate + resultTemplate;
   }
 
   bind() {
@@ -33,75 +179,85 @@ export default class StatsScreen extends AbstractView {
     backBtn.addEventListener(`click`, () => {
       Application.showWelcome();
     });
-    this.createNewStats();
+
+
+    this.createNewStats(this.element, this.state);
+    const ulElement = this.element.querySelector(`.stats`);
+    this.fillNumber(this.element);
+    if (!this.isFail(ulElement)) {
+      this.fillTotal(this.element);
+      this.fillTotalFinal(this.element);
+      this.fillFast(this.element.querySelector(`.result__fast`));
+      this.fillSlow(this.element.querySelector(`.result__slow`));
+      this.fillLives(this.element.querySelector(`.result__lives`));
+    }
   }
 
-  createNewStats() {
-    const tableElement = document.createElement(`table`);
-    tableElement.classList.add(`result__table`);
-    const rowElement = document.createElement(`tr`);
-    let firstCell = document.createElement(`td`);
-    firstCell.classList.add(`result__number`);
-    firstCell.textContent = this.element.querySelectorAll(`.result__table`).length + 1 + `.`;
-    let secondCell = document.createElement(`td`);
-    let ulElement = document.createElement(`ul`);
-    ulElement.classList.add(`stats`);
-    for (let i = 0; i < 10; i++) {
-      let newLi = document.createElement(`li`);
-      newLi.classList.add(`stats__result`);
-      newLi.classList.add(`stats__result--unknown`);
-      if (!this.state.answers[i]) {
-        newLi.classList.add(`stats__result--wrong`);
-      } else if (this.state.answers[i] === `usual`) {
-        newLi.classList.add(`stats__result--correct`);
-      } else if (this.state.answers[i] === `slow`) {
-        newLi.classList.add(`stats__result--slow`);
-      } else if (this.state.answers[i] === `fast`) {
-        newLi.classList.add(`stats__result--fast`);
+  addResults(data) {
+    let resultSection = this.element.querySelector(`.result`);
+    if (data !== null) {
+      for (let i = 1; i < data.length; i++) {
+        let newData = this.createTableFromData(data[i], i + 1);
+        resultSection.appendChild(newData);
       }
-      if (this.state.answers[i] === ``) {
+    }
+  }
+
+  createTableFromData(data, number) {
+    let dataElement = render(this.getScoreTemplate(data, number));
+    this.createNewStats(dataElement, data);
+    const ulElement = dataElement.querySelector(`.stats`);
+    if (!this.isFail(ulElement)) {
+      this.fillTotal(dataElement);
+      this.fillTotalFinal(dataElement);
+      this.fillFast(dataElement.querySelector(`.result__fast`));
+      this.fillSlow(dataElement.querySelector(`.result__slow`));
+      this.fillLives(dataElement.querySelector(`.result__lives`));
+    }
+    return dataElement;
+  }
+
+  createNewStats(element, data) {
+    const liElements = Array.prototype.slice.call(element.querySelectorAll(`li.stats__result`));
+    for (let i = 0; i < liElements.length; i++) {
+      let newLi = liElements[i];
+      if (data.answers[i] === `correct`) {
+        newLi.classList.remove(`stats__result--unknown`);
         newLi.classList.remove(`stats__result--wrong`);
+        newLi.classList.add(`stats__result--correct`);
+      } else if (data.answers[i] === `slow`) {
+        newLi.classList.remove(`stats__result--unknown`);
+        newLi.classList.remove(`stats__result--wrong`);
+        newLi.classList.add(`stats__result--slow`);
+      } else if (data.answers[i] === `fast`) {
+        newLi.classList.remove(`stats__result--unknown`);
+        newLi.classList.remove(`stats__result--wrong`);
+        newLi.classList.add(`stats__result--fast`);
+      } else {
+        if (!(data.answers[i] === ``)) {
+          newLi.classList.add(`stats__result--wrong`);
+          newLi.classList.remove(`stats__result--unknown`);
+        }
       }
-      ulElement.appendChild(newLi);
     }
-    let thirdCell = document.createElement(`td`);
-    let fourthCell = document.createElement(`td`);
-    if (this.isFail(ulElement)) {
-      thirdCell.classList.add(`result__total`);
-      fourthCell.classList.add(`result__total`);
-      fourthCell.classList.add(`result__total--final`);
-      fourthCell.textContent = `fail`;
-      secondCell.appendChild(ulElement);
-      rowElement.appendChild(firstCell);
-      rowElement.appendChild(secondCell);
-      rowElement.appendChild(thirdCell);
-      rowElement.appendChild(fourthCell);
-      tableElement.appendChild(rowElement);
-    } else {
-      thirdCell.classList.add(`result__points`);
-      thirdCell.textContent = `× 100`;
-      fourthCell.classList.add(`result__total`);
-      fourthCell.setAttribute(`colspan`, `2`);
-      fourthCell.textContent = (this.calculateUsual(ulElement) + this.calculateFast(ulElement) + this.calculateSlow(ulElement)) * 100;
-      secondCell.appendChild(ulElement);
-      rowElement.appendChild(firstCell);
-      rowElement.appendChild(secondCell);
-      rowElement.appendChild(thirdCell);
-      rowElement.appendChild(fourthCell);
-      tableElement.appendChild(rowElement);
-      if (this.calculateFast(ulElement) !== 0) {
-        tableElement.appendChild(this.createFastRow(ulElement));
-      }
-      if (this.state.lives !== 0) {
-        tableElement.appendChild(this.createLivesRow());
-      }
-      if (this.calculateSlow(ulElement) !== 0) {
-        tableElement.appendChild(this.createSlowRow(ulElement));
-      }
-      tableElement.appendChild(this.createTotal(ulElement));
-    }
-    const resultTable = this.element.querySelector(`.result`);
-    resultTable.appendChild(tableElement);
+  }
+
+  fillNumber(element) {
+    let numberElement = element.querySelector(`.result__number`);
+    numberElement.innerHTML = ``;
+    numberElement.textContent = this.element.querySelectorAll(`.result__table`).length + `.`;
+  }
+
+  fillTotal(element) {
+    let totalElement = element.querySelector(`.result__total--usual`);
+    totalElement.innerHTML = ``;
+    totalElement.textContent = (this.calculateUsual(element) + this.calculateFast(element) + this.calculateSlow(element)) * 100;
+  }
+
+  fillTotalFinal(element) {
+    let finalElement = element.querySelector(`.result__total--final`);
+    finalElement.innerHTML = ``;
+    finalElement.textContent = this.calculateAll(element);
   }
 
   isFail(element) {
@@ -109,122 +265,63 @@ export default class StatsScreen extends AbstractView {
     return (fails.length >= 3);
   }
 
-  calculateFast(element) {
-    let fasts = Array.prototype.slice.call(element.querySelectorAll(`.stats__result--fast`));
+  fillFast(element) {
+    const fasts = this.calculateFast(element);
+    if (fasts !== 0) {
+      let numberElement = element.querySelector(`.result__extra--col`);
+      numberElement.textContent = fasts;
+      let totalElement = element.querySelector(`.result__total`);
+      totalElement.textContent = fasts * 50;
+    } else {
+      element.innerHTML = ``;
+    }
+  }
+
+  fillSlow(element) {
+    const slows = this.calculateSlow(element);
+    if (slows !== 0) {
+      let numberElement = element.querySelector(`.result__extra--col`);
+      numberElement.textContent = slows;
+      let totalElement = element.querySelector(`.result__total`);
+      totalElement.textContent = slows * (-50);
+    } else {
+      element.innerHTML = ``;
+    }
+  }
+
+  fillLives(element) {
+    const lives = this.state.lives;
+    if (lives > 0) {
+      let numberElement = element.querySelector(`.result__extra--col`);
+      numberElement.textContent = lives;
+      let totalElement = element.querySelector(`.result__total`);
+      totalElement.textContent = lives * 50;
+    } else {
+      element.innerHTML = ``;
+    }
+  }
+
+  calculateFast() {
+    let fasts = Array.prototype.slice.call(this.element.querySelectorAll(`li.stats__result--fast`));
     return fasts.length;
   }
 
-  calculateSlow(element) {
-    let slows = Array.prototype.slice.call(element.querySelectorAll(`.stats__result--slow`));
+  calculateSlow() {
+    let slows = Array.prototype.slice.call(this.element.querySelectorAll(`li.stats__result--slow`));
     return slows.length;
   }
 
-  calculateUsual(element) {
-    let usuals = Array.prototype.slice.call(element.querySelectorAll(`.stats__result--usual`));
+  calculateUsual() {
+    let usuals = Array.prototype.slice.call(this.element.querySelectorAll(`li.stats__result--correct`));
     return usuals.length;
   }
 
-  calculateAll(element) {
+  calculateAll() {
     let sum = 0;
-    sum += this.calculateUsual(element) * 100;
-    sum += this.calculateFast(element) * 150;
-    sum += this.calculateSlow(element) * 50;
+    sum += this.calculateUsual() * 100;
+    sum += this.calculateFast() * 150;
+    sum += this.calculateSlow() * 50;
     sum += this.state.lives * 50;
     return sum;
-  }
-
-  createFastRow(element) {
-    let points = this.calculateFast(element);
-    const rowElement = document.createElement(`tr`);
-    let firstCell = document.createElement(`td`);
-    let secondCell = document.createElement(`td`);
-    secondCell.classList.add(`result__extra`);
-    secondCell.textContent = `Бонус за скорость:`;
-    let thirdCell = document.createElement(`td`);
-    thirdCell.classList.add(`result__extra`);
-    let thirdSpan = document.createElement(`span`);
-    thirdSpan.classList.add(`stats__result`);
-    thirdSpan.classList.add(`stats__result--fast`);
-    thirdCell.textContent = points;
-    thirdCell.appendChild(thirdSpan);
-    let fourthCell = document.createElement(`td`);
-    fourthCell.classList.add(`result__points`);
-    fourthCell.textContent = `× 50`;
-    let fifthCell = document.createElement(`td`);
-    fifthCell.classList.add(`result__total`);
-    fifthCell.textContent = points * 50;
-    rowElement.appendChild(firstCell);
-    rowElement.appendChild(secondCell);
-    rowElement.appendChild(thirdCell);
-    rowElement.appendChild(fourthCell);
-    rowElement.appendChild(fifthCell);
-    return rowElement;
-  }
-
-  createSlowRow(element) {
-    let points = this.calculateSlow(element);
-    const rowElement = document.createElement(`tr`);
-    let firstCell = document.createElement(`td`);
-    let secondCell = document.createElement(`td`);
-    secondCell.classList.add(`result__extra`);
-    secondCell.textContent = `Штраф за медлительность:`;
-    let thirdCell = document.createElement(`td`);
-    thirdCell.classList.add(`result__extra`);
-    let thirdSpan = document.createElement(`span`);
-    thirdSpan.classList.add(`stats__result`);
-    thirdSpan.classList.add(`stats__result--slow`);
-    thirdCell.textContent = points;
-    thirdCell.appendChild(thirdSpan);
-    let fourthCell = document.createElement(`td`);
-    fourthCell.classList.add(`result__points`);
-    fourthCell.textContent = `× 50`;
-    let fifthCell = document.createElement(`td`);
-    fifthCell.classList.add(`result__total`);
-    fifthCell.textContent = points * 50 * (-1);
-    rowElement.appendChild(firstCell);
-    rowElement.appendChild(secondCell);
-    rowElement.appendChild(thirdCell);
-    rowElement.appendChild(fourthCell);
-    rowElement.appendChild(fifthCell);
-    return rowElement;
-  }
-
-  createLivesRow() {
-    let points = this.state.lives;
-    const rowElement = document.createElement(`tr`);
-    let firstCell = document.createElement(`td`);
-    let secondCell = document.createElement(`td`);
-    secondCell.classList.add(`result__extra`);
-    secondCell.textContent = `Бонус за жизни:`;
-    let thirdCell = document.createElement(`td`);
-    thirdCell.classList.add(`result__extra`);
-    let thirdSpan = document.createElement(`span`);
-    thirdSpan.classList.add(`stats__result`);
-    thirdSpan.classList.add(`stats__result--alive`);
-    thirdCell.textContent = points;
-    thirdCell.appendChild(thirdSpan);
-    let fourthCell = document.createElement(`td`);
-    fourthCell.classList.add(`result__points`);
-    fourthCell.textContent = `× 50`;
-    let fifthCell = document.createElement(`td`);
-    fifthCell.classList.add(`result__total`);
-    fifthCell.textContent = points * 50;
-    rowElement.appendChild(firstCell);
-    rowElement.appendChild(secondCell);
-    rowElement.appendChild(thirdCell);
-    rowElement.appendChild(fourthCell);
-    rowElement.appendChild(fifthCell);
-    return rowElement;
-  }
-
-  createTotal(element) {
-    const rowElement = document.createElement(`tr`);
-    let firstCell = document.createElement(`td`);
-    firstCell.classList.add(`result__total`);
-    firstCell.classList.add(`result__total--final`);
-    firstCell.setAttribute(`colspan`, `5`);
-    firstCell.textContent = this.calculateAll(element);
-    rowElement.appendChild(firstCell);
-    return rowElement;
   }
 }

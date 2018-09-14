@@ -1,4 +1,5 @@
-import {startTimer, stopTimer, state} from './game-data.js';
+import {startTimer, stopTimer} from './timer.js';
+import GameModel from './game-model.js';
 
 export const render = (template) => {
   const wrapper = document.createElement(`div`);
@@ -16,8 +17,8 @@ export const changeScreen = (element) => {
 export const changeScreen2 = (object) => {
   stopTimer();
   mainElement.innerHTML = ``;
-  object.renewLives(state);
-  object.renewStats(state);
+  object.renewLives(GameModel.state);
+  object.renewStats(GameModel.state);
   mainElement.appendChild(object.element);
   startTimer(object);
 };

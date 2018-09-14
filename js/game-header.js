@@ -1,9 +1,10 @@
 import AbstractView from './abstract.js';
+import GameModel from './game-model.js';
+
 
 export default class GameHeader extends AbstractView {
-  constructor(state) {
+  constructor() {
     super();
-    this.state = state;
   }
 
   get template() {
@@ -17,12 +18,12 @@ export default class GameHeader extends AbstractView {
         <use xlink:href="img/sprite.svg#logo-small"></use>
       </svg>
     </button>
-    <div class="game__timer">${this.state.time}</div>
+    <div class="game__timer">${GameModel.state.time}</div>
     <div class="game__lives">
-      ${new Array(3 - this.state.lives)
+      ${new Array(3 - GameModel.state.lives)
         .fill(`<img src="img/heart__empty.svg" class="game__heart" alt=" Missed Life" width="31" height="27">`)
         .join(``)}
-      ${new Array(this.state.lives)
+      ${new Array(GameModel.state.lives)
         .fill(`<img src="img/heart__full.svg" class="game__heart" alt="Life" width="31" height="27">`)
         .join(``)}
       </div>

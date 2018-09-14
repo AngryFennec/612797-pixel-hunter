@@ -107,8 +107,7 @@ export const changeTime = (game, time) => {
   return newGame;
 };
 
-  /* module4-task1 */
-export let state = {
+let state = {
   level: 0,
   lives: LIVES,
   time: TIME_LIMIT,
@@ -129,4 +128,13 @@ export let state = {
   levels: []
 };
 
-export default state;
+export const getState = () => {
+  return state;
+}
+export const resetInnerState = () => {
+  for (let i = 0; i < state.count; i++) {
+    state.answers[i] = ``;
+  }
+}
+
+export default getState;

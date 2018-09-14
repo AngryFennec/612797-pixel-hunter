@@ -1,4 +1,4 @@
-import state from './game-data.js';
+import {getState, resetInnerState} from './game-data.js';
 import ScreensCreator from './screens.js';
 import LIVES from './game-data.js';
 
@@ -12,7 +12,7 @@ export default class GameModel {
   }
 
   static assignState() {
-    this.state = state;
+    this.state = getState();
   }
 
   static init(data) {
@@ -38,10 +38,7 @@ export default class GameModel {
         9: ``
       }
     });
-    for (let i = 0; i < GameModel.state.count; i++) {
-      GameModel.state.answers[i] = ``;
-      state.answers[i] = ``;
-    }
+    resetInnerState();
 
   }
 

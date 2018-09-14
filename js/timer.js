@@ -12,10 +12,8 @@ export const tick = (obj) => {
       lives: GameModel.state.lives - 1
     });
     if (GameModel.state.lives > 0) {
-      GameModel.state.answers[obj.number] = false;
       obj.changeToNextLevel();
     } else {
-      GameModel.state.answers[obj.number] = false;
       Application.showStats(GameModel.state);
     }
   } else {

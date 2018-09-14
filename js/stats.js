@@ -96,81 +96,11 @@ export default class StatsScreen extends AbstractView {
   </header>`;
     let resultTemplate = ``;
     let title = `Поражение :(`;
+    let scoreTemplate = this.getScoreTemplate(this.state, 1);
     if (this.state.answers[9]) {
       title = `Победа!`;
-      resultTemplate = `<section class="result">
-      <h2 class="result__title">${title}</h2>
-      <table class="result__table">
-        <tr>
-          <td class="result__number">3.</td>
-          <td colspan="2">
-          <ul class="stats">
-            <li class="stats__result stats__result--unknow"></li>
-            <li class="stats__result stats__result--unknown"></li>
-            <li class="stats__result stats__result--unknown"></li>
-            <li class="stats__result stats__result--unknown"></li>
-            <li class="stats__result stats__result--unknown"></li>
-            <li class="stats__result stats__result--unknown"></li>
-            <li class="stats__result stats__result--unknown"></li>
-            <li class="stats__result stats__result--unknown"></li>
-            <li class="stats__result stats__result--unknown"></li>
-            <li class="stats__result stats__result--unknown"></li>
-          </ul>
-          </td>
-          <td class="result__points">× 100</td>
-          <td class="result__total result__total--usual">900</td>
-        </tr>
-        <tr class="result__fast">
-          <td></td>
-          <td class="result__extra">Бонус за скорость:</td>
-          <td class="result__extra--col">1 <span class="stats__result stats__result--fast"></span></td>
-          <td class="result__points">× 50</td>
-          <td class="result__total">50</td>
-        </tr>
-        <tr class="result__lives">
-          <td></td>
-          <td class="result__extra">Бонус за жизни:</td>
-          <td class="result__extra--col">2 <span class="stats__result stats__result--alive"></span></td>
-          <td class="result__points">× 50</td>
-          <td class="result__total">100</td>
-        </tr>
-        <tr class="result__slow">
-          <td></td>
-          <td class="result__extra">Штраф за медлительность:</td>
-          <td class="result__extra--col">2 <span class="stats__result stats__result--slow"></span></td>
-          <td class="result__points">× 50</td>
-          <td class="result__total">-100</td>
-        </tr>
-        <tr>
-          <td colspan="5" class="result__total  result__total--final">950</td>
-        </tr>
-      </table>
-      </section>`;
-    } else {
-      resultTemplate = `<section class="result">
-      <h2 class="result__title">${title}</h2><table class="result__table">
-        <tr>
-          <td class="result__number">2.</td>
-          <td>
-            <ul class="stats">
-              <li class="stats__result stats__result--unknow"></li>
-              <li class="stats__result stats__result--unknown"></li>
-              <li class="stats__result stats__result--unknown"></li>
-              <li class="stats__result stats__result--unknown"></li>
-              <li class="stats__result stats__result--unknown"></li>
-              <li class="stats__result stats__result--unknown"></li>
-              <li class="stats__result stats__result--unknown"></li>
-              <li class="stats__result stats__result--unknown"></li>
-              <li class="stats__result stats__result--unknown"></li>
-              <li class="stats__result stats__result--unknown"></li>
-            </ul>
-          </td>
-          <td class="result__total"></td>
-          <td class="result__total  result__total--final">fail</td>
-        </tr>
-      </table>
-      </section>`;
     }
+    resultTemplate = `<section class="result"><h2 class="result__title">${title}</h2>` + scoreTemplate + `</section>`;
     return headerTemplate + resultTemplate;
   }
 
@@ -179,11 +109,8 @@ export default class StatsScreen extends AbstractView {
     backBtn.addEventListener(`click`, () => {
       Application.showWelcome();
     });
-
-
     this.createNewStats(this.element, this.state);
     const ulElement = this.element.querySelector(`.stats`);
-    this.fillNumber(this.element);
     if (!this.isFail(ulElement)) {
       this.fillTotal(this.element);
       this.fillTotalFinal(this.element);
@@ -196,8 +123,8 @@ export default class StatsScreen extends AbstractView {
   addResults(data) {
     let resultSection = this.element.querySelector(`.result`);
     if (data !== null) {
-      for (let i = 1; i < data.length; i++) {
-        let newData = this.createTableFromData(data[i], i + 1);
+      for (let i = 0; i < data.length - 1; i++) {
+        let newData = this.createTableFromData(data[i], (i + 2));
         resultSection.appendChild(newData);
       }
     }
@@ -301,26 +228,26 @@ export default class StatsScreen extends AbstractView {
     }
   }
 
-  calculateFast() {
-    let fasts = Array.prototype.slice.call(this.element.querySelectorAll(`li.stats__result--fast`));
+  calculateFast(element) {
+    let fasts = Array.prototype.slice.call(element.querySelectorAll(`li.stats__result--fast`));
     return fasts.length;
   }
 
-  calculateSlow() {
-    let slows = Array.prototype.slice.call(this.element.querySelectorAll(`li.stats__result--slow`));
+  calculateSlow(element) {
+    let slows = Array.prototype.slice.call(element.querySelectorAll(`li.stats__result--slow`));
     return slows.length;
   }
 
-  calculateUsual() {
-    let usuals = Array.prototype.slice.call(this.element.querySelectorAll(`li.stats__result--correct`));
+  calculateUsual(element) {
+    let usuals = Array.prototype.slice.call(element.querySelectorAll(`li.stats__result--correct`));
     return usuals.length;
   }
 
-  calculateAll() {
+  calculateAll(element) {
     let sum = 0;
-    sum += this.calculateUsual() * 100;
-    sum += this.calculateFast() * 150;
-    sum += this.calculateSlow() * 50;
+    sum += this.calculateUsual(element) * 100;
+    sum += this.calculateFast(element) * 150;
+    sum += this.calculateSlow(element) * 50;
     sum += this.state.lives * 50;
     return sum;
   }

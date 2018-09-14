@@ -145,9 +145,7 @@ export const tick = (obj) => {
     obj.renewTimer(state);
   }
 };
-
 let timer;
-
 export const startTimer = (obj) => {
   obj.renewTimer(state);
   timer = setTimeout(() => {
@@ -155,22 +153,12 @@ export const startTimer = (obj) => {
     startTimer(obj);
   }, ONE_SECOND);
 };
-
 export const stopTimer = () => {
   state = Object.assign({}, state, {
     time: TIME_LIMIT
   });
   clearTimeout(timer);
 };
-<<<<<<< HEAD
-
-export const clearState = () => {
-  state = Object.assign({}, state, {
-    lives: 3
-  });
-};
-
-=======
 */
 export const resetState = () => {
   state = Object.assign({}, state, {
@@ -189,5 +177,4 @@ export const resetState = () => {
     }
   });
 };
->>>>>>> d6889e4aaa6c5ba6cfedf893bce7b43aea48a900
 export default state;

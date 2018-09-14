@@ -14,6 +14,7 @@ export const tick = (obj) => {
     if (GameModel.state.lives > 0) {
       obj.changeToNextLevel();
     } else {
+      GameModel.state.answers[obj.number] = false;
       Application.showStats(GameModel.state);
     }
   } else {

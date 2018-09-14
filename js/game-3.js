@@ -32,11 +32,21 @@ export default class GameThree extends GameObject {
   checkAnswer(task, options) {
     let j = 10;
     let k = 20;
+    let rightAnswers = task.answers;
+    let photos = 0;
+    let paintings = 0;
+    rightAnswers.forEach(function (item) {
+      if (item.type === `photo`) {
+        photos++;
+      } else {
+        paintings++;
+      }
+    });
     for (let i = 0; i < options.length; i++) {
       if (options[i].querySelector(`.game__option--selected-image`)) {
         j = i;
       }
-      if (task.answers[i].type === `photo`) {
+      if ((paintings > photos && task.answers[i].type === `photo`) || (paintings < photos && task.answers[i].type === `painting`)) {
         k = i;
       }
     }

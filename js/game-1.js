@@ -24,7 +24,7 @@ export default class GameOne extends GameObject {
           <span>Фото</span>
         </label>
         <label class="game__answer game__answer--paint">
-          <input class="visually-hidden" name="question1" type="radio" value="paint">
+          <input class="visually-hidden" name="question1" type="radio" value="painting">
           <span>Рисунок</span>
         </label>
       </div>
@@ -35,7 +35,7 @@ export default class GameOne extends GameObject {
           <span>Фото</span>
         </label>
         <label class="game__answer  game__answer--paint">
-          <input class="visually-hidden" name="question2" type="radio" value="paint">
+          <input class="visually-hidden" name="question2" type="radio" value="painting">
           <span>Рисунок</span>
         </label>
       </div>

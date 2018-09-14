@@ -63,6 +63,6 @@ export default class GameObject extends AbstractView {
     if (time >= 20) {
       return `fast`;
     }
-    return `usual`;
+    return `correct`;
   }
 }

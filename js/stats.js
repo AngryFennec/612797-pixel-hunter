@@ -1,10 +1,85 @@
 import Application from './application.js';
 import AbstractView from './abstract.js';
+import {render} from './util.js';
 
 export default class StatsScreen extends AbstractView {
   constructor(state) {
     super();
     this.state = state;
+  }
+
+  getScoreTemplate(data, number) {
+    let resultTemplate = ``;
+    if (data.answers[9]) {
+      resultTemplate = `<table class="result__table">
+        <tr>
+          <td class="result__number">${number}.</td>
+          <td colspan="2">
+          <ul class="stats">
+            <li class="stats__result stats__result--unknow"></li>
+            <li class="stats__result stats__result--unknown"></li>
+            <li class="stats__result stats__result--unknown"></li>
+            <li class="stats__result stats__result--unknown"></li>
+            <li class="stats__result stats__result--unknown"></li>
+            <li class="stats__result stats__result--unknown"></li>
+            <li class="stats__result stats__result--unknown"></li>
+            <li class="stats__result stats__result--unknown"></li>
+            <li class="stats__result stats__result--unknown"></li>
+            <li class="stats__result stats__result--unknown"></li>
+          </ul>
+          </td>
+          <td class="result__points">× 100</td>
+          <td class="result__total result__total--usual">900</td>
+        </tr>
+        <tr class="result__fast">
+          <td></td>
+          <td class="result__extra">Бонус за скорость:</td>
+          <td class="result__extra--col">1 <span class="stats__result stats__result--fast"></span></td>
+          <td class="result__points">× 50</td>
+          <td class="result__total">50</td>
+        </tr>
+        <tr class="result__lives">
+          <td></td>
+          <td class="result__extra">Бонус за жизни:</td>
+          <td class="result__extra--col">2 <span class="stats__result stats__result--alive"></span></td>
+          <td class="result__points">× 50</td>
+          <td class="result__total">100</td>
+        </tr>
+        <tr class="result__slow">
+          <td></td>
+          <td class="result__extra">Штраф за медлительность:</td>
+          <td class="result__extra--col">2 <span class="stats__result stats__result--slow"></span></td>
+          <td class="result__points">× 50</td>
+          <td class="result__total">-100</td>
+        </tr>
+        <tr>
+          <td colspan="5" class="result__total  result__total--final">950</td>
+        </tr>
+      </table>`;
+    } else {
+      resultTemplate = `<table class="result__table">
+        <tr>
+          <td class="result__number">${number}.</td>
+          <td>
+            <ul class="stats">
+              <li class="stats__result stats__result--unknow"></li>
+              <li class="stats__result stats__result--unknown"></li>
+              <li class="stats__result stats__result--unknown"></li>
+              <li class="stats__result stats__result--unknown"></li>
+              <li class="stats__result stats__result--unknown"></li>
+              <li class="stats__result stats__result--unknown"></li>
+              <li class="stats__result stats__result--unknown"></li>
+              <li class="stats__result stats__result--unknown"></li>
+              <li class="stats__result stats__result--unknown"></li>
+              <li class="stats__result stats__result--unknown"></li>
+            </ul>
+          </td>
+          <td class="result__total"></td>
+          <td class="result__total  result__total--final">fail</td>
+        </tr>
+      </table>`;
+    }
+    return resultTemplate;
   }
 
   get template() {
@@ -29,18 +104,18 @@ export default class StatsScreen extends AbstractView {
         <tr>
           <td class="result__number">3.</td>
           <td colspan="2">
-            <ul class="stats">
-              <li class="stats__result"></li>
-              <li class="stats__result"></li>
-              <li class="stats__result"></li>
-              <li class="stats__result"></li>
-              <li class="stats__result"></li>
-              <li class="stats__result"></li>
-              <li class="stats__result"></li>
-              <li class="stats__result"></li>
-              <li class="stats__result"></li>
-              <li class="stats__result"></li>
-            </ul>
+          <ul class="stats">
+            <li class="stats__result stats__result--unknow"></li>
+            <li class="stats__result stats__result--unknown"></li>
+            <li class="stats__result stats__result--unknown"></li>
+            <li class="stats__result stats__result--unknown"></li>
+            <li class="stats__result stats__result--unknown"></li>
+            <li class="stats__result stats__result--unknown"></li>
+            <li class="stats__result stats__result--unknown"></li>
+            <li class="stats__result stats__result--unknown"></li>
+            <li class="stats__result stats__result--unknown"></li>
+            <li class="stats__result stats__result--unknown"></li>
+          </ul>
           </td>
           <td class="result__points">× 100</td>
           <td class="result__total result__total--usual">900</td>
@@ -106,7 +181,7 @@ export default class StatsScreen extends AbstractView {
     });
 
 
-    this.createNewStats(this.element);
+    this.createNewStats(this.element, this.state);
     const ulElement = this.element.querySelector(`.stats`);
     this.fillNumber(this.element);
     if (!this.isFail(ulElement)) {
@@ -118,27 +193,50 @@ export default class StatsScreen extends AbstractView {
     }
   }
 
-  createNewStats(element) {
+  addResults(data) {
+    let resultSection = this.element.querySelector(`.result`);
+    if (data !== null) {
+      for (let i = 1; i < data.length; i++) {
+        let newData = this.createTableFromData(data[i], i + 1);
+        resultSection.appendChild(newData);
+      }
+    }
+  }
+
+  createTableFromData(data, number) {
+    let dataElement = render(this.getScoreTemplate(data, number));
+    this.createNewStats(dataElement, data);
+    const ulElement = dataElement.querySelector(`.stats`);
+    if (!this.isFail(ulElement)) {
+      this.fillTotal(dataElement);
+      this.fillTotalFinal(dataElement);
+      this.fillFast(dataElement.querySelector(`.result__fast`));
+      this.fillSlow(dataElement.querySelector(`.result__slow`));
+      this.fillLives(dataElement.querySelector(`.result__lives`));
+    }
+    return dataElement;
+  }
+
+  createNewStats(element, data) {
     const liElements = Array.prototype.slice.call(element.querySelectorAll(`li.stats__result`));
     for (let i = 0; i < liElements.length; i++) {
       let newLi = liElements[i];
-      newLi.classList.add(`stats__result--unknown`);
-      if (this.state.answers[i] === `usual`) {
+      if (data.answers[i] === `correct`) {
         newLi.classList.remove(`stats__result--unknown`);
         newLi.classList.remove(`stats__result--wrong`);
         newLi.classList.add(`stats__result--correct`);
-      } else if (this.state.answers[i] === `slow`) {
+      } else if (data.answers[i] === `slow`) {
         newLi.classList.remove(`stats__result--unknown`);
         newLi.classList.remove(`stats__result--wrong`);
         newLi.classList.add(`stats__result--slow`);
-      } else if (this.state.answers[i] === `fast`) {
+      } else if (data.answers[i] === `fast`) {
         newLi.classList.remove(`stats__result--unknown`);
         newLi.classList.remove(`stats__result--wrong`);
         newLi.classList.add(`stats__result--fast`);
       } else {
-        if (!(this.state.answers[i] === ``)) {
-          newLi.classList.remove(`stats__result--unknown`);
+        if (!(data.answers[i] === ``)) {
           newLi.classList.add(`stats__result--wrong`);
+          newLi.classList.remove(`stats__result--unknown`);
         }
       }
     }
@@ -214,7 +312,7 @@ export default class StatsScreen extends AbstractView {
   }
 
   calculateUsual() {
-    let usuals = Array.prototype.slice.call(this.element.querySelectorAll(`li.stats__result--usual`));
+    let usuals = Array.prototype.slice.call(this.element.querySelectorAll(`li.stats__result--correct`));
     return usuals.length;
   }
 

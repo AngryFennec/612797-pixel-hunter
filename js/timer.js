@@ -21,11 +21,11 @@ export const tick = (obj) => {
   }
 };
 
-export let timer;
+let _timer;
 
 export const startTimer = (obj) => {
   obj.renewTimer(GameModel.state);
-  timer = setTimeout(() => {
+  _timer = setTimeout(() => {
     startTimer(obj);
     tick(obj);
   }, ONE_SECOND);
@@ -35,7 +35,7 @@ export const stopTimer = () => {
   GameModel.state = Object.assign({}, GameModel.state, {
     time: TIME_LIMIT
   });
-  clearTimeout(timer);
+  clearTimeout(_timer);
 };
 
-export default timer;
+export default startTimer;

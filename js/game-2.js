@@ -32,7 +32,7 @@ export default class GameTwo extends GameObject {
   }
 
   checkAnswer(task, select) {
-    return (this.task.answers[0].type === select);
+    return (task.answers[0].type === select);
   }
 
 

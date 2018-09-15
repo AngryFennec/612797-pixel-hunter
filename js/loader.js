@@ -31,6 +31,7 @@ export default class Loader {
     for (let i = 0; i < GameModel.state.count; i++) {
       dataToSend.answers.push(GameModel.state.answers[i]);
     }
+
     data = Object.assign({name}, data);
     const requestSettings = {
       body: JSON.stringify(dataToSend),

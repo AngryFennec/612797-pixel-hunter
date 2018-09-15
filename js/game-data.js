@@ -2,6 +2,7 @@ const NUM = 10;
 const LEVEL_NUMBER = 10;
 const TIME_LIMIT = 30;
 export const LIVES = 3;
+
 export const INITIAL_GAME = Object.freeze({
   level: 0,
   lives: 3,
@@ -107,8 +108,7 @@ export const changeTime = (game, time) => {
   return newGame;
 };
 
-  /* module4-task1 */
-export let state = {
+let state = {
   level: 0,
   lives: LIVES,
   time: TIME_LIMIT,
@@ -129,4 +129,14 @@ export let state = {
   levels: []
 };
 
-export default state;
+export const getState = () => {
+  return state;
+};
+
+export const resetInnerState = () => {
+  for (let i = 0; i < state.count; i++) {
+    state.answers[i] = ``;
+  }
+};
+
+export default getState;

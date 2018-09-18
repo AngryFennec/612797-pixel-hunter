@@ -1,6 +1,6 @@
 import {changeScreen} from './util.js';
 import Rules from './rules.js';
-import AbstractView from './abstract.js';
+import AbstractView from './abstract-view.js';
 
 export default class Greeting extends AbstractView {
   constructor() {

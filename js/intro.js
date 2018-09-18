@@ -1,6 +1,6 @@
 import {changeScreen} from './util.js';
 import Greeting from './greeting.js';
-import AbstractView from './abstract.js';
+import AbstractView from './abstract-view.js';
 
 export default class Intro extends AbstractView {
   constructor() {

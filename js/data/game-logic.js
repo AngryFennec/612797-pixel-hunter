@@ -39,17 +39,17 @@ export const countScore = (answers, livesNumber) => {
     return -1;
   }
   let score = 0;
-  for (let i = 0; i < answers.length; i++) {
-    const current = answers[i];
-    if (current.value) {
+  answers.forEach(function (item) {
+    if (item.value) {
       score += 100;
-      if (current.time < 10) {
+      if (item.time < 10) {
         score += 50;
-      } else if (current.time > 20) {
+      } else if (item.time > 20) {
         score -= 50;
       }
     }
-  }
+  });
+
   score += livesNumber * 50;
   return score;
 };

@@ -1,5 +1,5 @@
 import Application from './application.js';
-import AbstractView from './abstract.js';
+import AbstractView from './abstract-view.js';
 import {render} from './util.js';
 
 const BONUS = 50;

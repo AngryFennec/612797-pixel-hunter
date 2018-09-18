@@ -14,7 +14,7 @@ export const changeScreen = (element) => {
   mainElement.appendChild(element);
 };
 
-export const changeScreen2 = (object) => {
+export const changeTaskScreen = (object) => {
   stopTimer();
   mainElement.innerHTML = ``;
   object.renewLives(GameModel.state);

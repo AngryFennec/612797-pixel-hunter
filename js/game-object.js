@@ -1,6 +1,6 @@
-import AbstractView from './abstract.js';
+import AbstractView from './abstract-view.js';
 import GameModel from './game-model.js';
-import {render, changeScreen2} from './util.js';
+import {render, changeTaskScreen} from './util.js';
 
 const FAST_TIME = 20;
 const SLOW_TIME = 10;
@@ -69,7 +69,7 @@ export default class GameObject extends AbstractView {
 
   changeToNextLevel() {
     GameModel.state.answers[this.number] = false;
-    changeScreen2(GameModel.state.levels[this.number + 1]);
+    changeTaskScreen(GameModel.state.levels[this.number + 1]);
   }
 
   checkTime(time) {

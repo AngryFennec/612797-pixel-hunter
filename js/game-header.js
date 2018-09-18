@@ -1,4 +1,4 @@
-import AbstractView from './abstract.js';
+import AbstractView from './abstract-view.js';
 import GameModel from './game-model.js';
 
 const LIVES = 3;

@@ -3,7 +3,7 @@ import GameModel from './game-model.js';
 import GameHeader from './game-header.js';
 import StatsList from './stats-list.js';
 import Application from './application.js';
-import {changeScreen2} from './util.js';
+import {changeTaskScreen} from './util.js';
 
 export default class GameThree extends GameObject {
   constructor(task, number) {
@@ -42,14 +42,14 @@ export default class GameThree extends GameObject {
         paintings++;
       }
     });
-    for (let i = 0; i < options.length; i++) {
-      if (options[i].querySelector(`.game__option--selected-image`)) {
+    options.forEach(function (item, i) {
+      if (item.querySelector(`.game__option--selected-image`)) {
         j = i;
       }
       if ((paintings > photos && task.answers[i].type === `photo`) || (paintings < photos && task.answers[i].type === `painting`)) {
         k = i;
       }
-    }
+    });
     return (k === j);
   }
 
@@ -70,7 +70,7 @@ export default class GameThree extends GameObject {
           Application.showStats(GameModel.state);
         } else {
           gameForm.reset();
-          changeScreen2(GameModel.state.levels[this.number + 1]);
+          changeTaskScreen(GameModel.state.levels[this.number + 1]);
         }
       } else {
         GameModel.state.answers[this.number] = this.checkTime(GameModel.state.time);
@@ -79,7 +79,7 @@ export default class GameThree extends GameObject {
           Application.showStats(GameModel.state);
         } else {
           gameForm.reset();
-          changeScreen2(GameModel.state.levels[this.number + 1]);
+          changeTaskScreen(GameModel.state.levels[this.number + 1]);
         }
       }
     };

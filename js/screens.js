@@ -1,7 +1,7 @@
 import GameObject from './game-object.js';
-import GameOne from './game-1.js';
-import GameTwo from './game-2.js';
-import GameThree from './game-3.js';
+import GameOne from './game-one.js';
+import GameTwo from './game-two.js';
+import GameThree from './game-three.js';
 
 export default class ScreensCreator {
   constructor(tasks) {

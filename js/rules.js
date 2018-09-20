@@ -1,5 +1,6 @@
-import {changeScreen, changeTaskScreen} from './util.js';
+import {changeScreen} from './util.js';
 import Intro from './intro.js';
+import Application from './application.js';
 import AbstractView from './abstract-view.js';
 import GameModel from './game-model.js';
 
@@ -50,7 +51,7 @@ export default class Rules extends AbstractView {
     });
     rulesBtn.addEventListener(`click`, () => {
       GameModel.state.name = rulesInput.value;
-      changeTaskScreen(GameModel.state.levels[0]);
+      Application.startGame();
     });
     const backBtn = this.element.querySelector(`.back`);
     backBtn.onClick = () => changeScreen(new Intro().element);

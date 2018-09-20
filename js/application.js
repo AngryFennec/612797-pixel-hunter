@@ -1,4 +1,4 @@
-import {changeScreen} from './util.js';
+import {changeScreen, changeTaskScreen} from './util.js';
 import StatsScreen from './stats.js';
 import Intro from './intro.js';
 import ErrorScreen from './error-screen.js';
@@ -25,6 +25,10 @@ export default class Application {
     then(() => Loader.loadResults(GameModel.state.name)).
     then((data) => stats.addResults(data)).
     catch(Application.showError);
+  }
+
+  static startGame() {
+    changeTaskScreen(GameModel.state.levels[0]);
   }
 
   static start() {

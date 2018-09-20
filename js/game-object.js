@@ -33,21 +33,21 @@ export default class GameObject extends AbstractView {
     statsRow.innerHTML = ``;
     for (let i = 0; i < GameModel.state.count; i++) {
       let newLi = document.createElement(`li`);
-      newLi.classList.add(`stats__result`);
-      newLi.classList.add(`stats__result--unknown`);
-      newLi.classList.remove(`stats__result--correct`);
-      newLi.classList.remove(`stats__result--fast`);
-      newLi.classList.remove(`stats__result--slow`);
-      newLi.classList.remove(`stats__result--wrong`);
+      newLi.classList.add(`stats__result`, `stats__result--unknown`);
+      newLi.classList.remove(`stats__result--correct`, `stats__result--fast`, `stats__result--slow`, `stats__result--wrong`);
       if (!GameModel.state.answers[i] && i < this.number) {
         newLi.classList.add(`stats__result--wrong`);
+      } else {
+        newLi.classList.add(`stats__result--` + GameModel.state.answers[i]);
+      }
+      /*
       } else if (GameModel.state.answers[i] === `correct`) {
         newLi.classList.add(`stats__result--correct`);
       } else if (GameModel.state.answers[i] === `slow`) {
         newLi.classList.add(`stats__result--slow`);
       } else if (GameModel.state.answers[i] === `fast`) {
         newLi.classList.add(`stats__result--fast`);
-      }
+      }*/
       statsRow.appendChild(newLi);
     }
   }

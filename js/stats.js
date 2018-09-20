@@ -125,11 +125,14 @@ export default class StatsScreen extends AbstractView {
 
   addResults(data) {
     let resultSection = this.element.querySelector(`.result`);
-    if (data !== null) {
+    if (data) {
+      data.forEach((item, i) => resultSection.appendChild(this.createTableFromData(data[i], (i + 2))));
+      /*
       for (let i = 0; i < data.length - 1; i++) {
         let newData = this.createTableFromData(data[i], (i + 2));
         resultSection.appendChild(newData);
       }
+      */
     }
   }
 
@@ -147,26 +150,24 @@ export default class StatsScreen extends AbstractView {
     return dataElement;
   }
 
+  changeStatsClassList(statsElement, newClass) {
+    statsElement.classList.remove(`stats__result--unknown`, `stats__result--wrong`);
+    statsElement.classList.add(`stats__result--` + newClass);
+  }
+
   createNewStats(element, data) {
     const liElements = Array.prototype.slice.call(element.querySelectorAll(`li.stats__result`));
     for (let i = 0; i < liElements.length; i++) {
       let newLi = liElements[i];
       if (data.answers[i] === `correct`) {
-        newLi.classList.remove(`stats__result--unknown`);
-        newLi.classList.remove(`stats__result--wrong`);
-        newLi.classList.add(`stats__result--correct`);
+        this.changeStatsClassList(newLi, `correct`);
       } else if (data.answers[i] === `slow`) {
-        newLi.classList.remove(`stats__result--unknown`);
-        newLi.classList.remove(`stats__result--wrong`);
-        newLi.classList.add(`stats__result--slow`);
+        this.changeStatsClassList(newLi, `slow`);
       } else if (data.answers[i] === `fast`) {
-        newLi.classList.remove(`stats__result--unknown`);
-        newLi.classList.remove(`stats__result--wrong`);
-        newLi.classList.add(`stats__result--fast`);
+        this.changeStatsClassList(newLi, `fast`);
       } else {
         if (!(data.answers[i] === ``)) {
-          newLi.classList.add(`stats__result--wrong`);
-          newLi.classList.remove(`stats__result--unknown`);
+          this.changeStatsClassList(newLi, `wrong`);
         }
       }
     }

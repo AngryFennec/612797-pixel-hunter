@@ -28,11 +28,6 @@ export default class ScreensCreator {
   }
 
   createLevels() {
-    let screens = [];
-    for (let i = 0; i < this.tasks.length; i++) {
-      let levelScreen = this.getCurrentLevel(this.tasks[i], i);
-      screens.push(levelScreen);
-    }
-    return screens;
+    return this.tasks.map((item, i) => this.getCurrentLevel(item, i));
   }
 }

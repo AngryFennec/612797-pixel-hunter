@@ -5,11 +5,16 @@ const DEFAULT_NAME = `o0`;
 const APP_ID = 22101985;
 
 const checkStatus = (response) => {
+  if (!response) {
+    throw new Error(`${response.status}: ${response.statusText}`);
+  }
+  return response;
+  /*
   if (response.ok) {
     return response;
   } else {
     throw new Error(`${response.status}: ${response.statusText}`);
-  }
+  }*/
 };
 
 const toJSON = (res) => res.json();

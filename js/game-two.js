@@ -3,7 +3,6 @@ import GameModel from './game-model.js';
 import GameHeader from './game-header.js';
 import StatsList from './stats-list.js';
 import Application from './application.js';
-import {changeTaskScreen} from './util.js';
 
 export default class GameTwo extends GameObject {
   constructor(task, number) {

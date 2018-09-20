@@ -1,5 +1,5 @@
 import {assert} from 'chai';
-import {countScore, addAnswer, getRandomInt, changeLevel, changeLives, INITIAL_GAME, changeTime} from './support.js';
+import {countScore, addAnswer, getRandomInt, changeLevel, changeLives, INITIAL_GAME, changeTime} from './game-logic.js';
 
 describe(`Check score count`, () => {
 

@@ -1,5 +1,6 @@
 import Application from './application.js';
 import AbstractView from './abstract-view.js';
+import StatsList from './stats-list.js';
 import {render} from './util.js';
 
 const BONUS = 50;
@@ -13,18 +14,7 @@ export default class StatsScreen extends AbstractView {
 
   getScoreTemplate(data, number) {
     let resultTemplate = ``;
-    const statsTemplate = `<ul class="stats">
-      <li class="stats__result stats__result--unknow"></li>
-      <li class="stats__result stats__result--unknown"></li>
-      <li class="stats__result stats__result--unknown"></li>
-      <li class="stats__result stats__result--unknown"></li>
-      <li class="stats__result stats__result--unknown"></li>
-      <li class="stats__result stats__result--unknown"></li>
-      <li class="stats__result stats__result--unknown"></li>
-      <li class="stats__result stats__result--unknown"></li>
-      <li class="stats__result stats__result--unknown"></li>
-      <li class="stats__result stats__result--unknown"></li>
-    </ul>`;
+    const statsTemplate = new StatsList(this.state).template;
     if (data.answers[this.state.count - 1]) {
       resultTemplate = `<table class="result__table">
         <tr>
@@ -87,7 +77,7 @@ export default class StatsScreen extends AbstractView {
     let resultTemplate = ``;
     let title = `Поражение :(`;
     let scoreTemplate = this.getScoreTemplate(this.state, 1);
-    if (this.state.answers[this.state.count - 1]) {
+    if (this.state.answers.length === this.state.count) {
       title = `Победа!`;
     }
     resultTemplate = `<section class="result"><h2 class="result__title">${title}</h2>` + scoreTemplate + `</section>`;
@@ -117,7 +107,7 @@ export default class StatsScreen extends AbstractView {
   addResults(data) {
     let resultSection = this.element.querySelector(`.result`);
     if (data && data.length > 1) {
-      let dataSlice = data.slice(0, length-2);
+      let dataSlice = data.slice(0, length-1);
       dataSlice.forEach((item, i) => resultSection.appendChild(this.createTableFromData(data[i], (i + 2))));
     }
   }
@@ -154,12 +144,11 @@ export default class StatsScreen extends AbstractView {
             this.changeStatsClassList(item, `fast`);
             break;
           }
-          default: {
-            if (!(data.answers[i] === ``)) {
-              this.changeStatsClassList(item, `wrong`);
-            }
+          case false: {
+            this.changeStatsClassList(item, `wrong`);
             break;
           }
+
         }
       });
     }
@@ -185,13 +174,7 @@ export default class StatsScreen extends AbstractView {
 
   isFail(element) {
     let fails = Array.prototype.slice.call(element.querySelectorAll(`.stats__result--wrong`));
-    let emptys = [];
-    for (let i = 0; i < this.state.count; i++) {
-      if (this.state.answers[i] === ``) {
-        emptys.push(``);
-      }
-    }
-    return (fails.length >= 3 || emptys.length >= 1);
+    return (fails.length >= 3 || this.state.answers.length < this.state.count - 1);
   }
 
   fillFast(element) {

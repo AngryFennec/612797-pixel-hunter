@@ -1,4 +1,5 @@
 import AbstractView from './abstract-view.js';
+import Application from './application.js';
 import GameModel from './game-model.js';
 import {render, changeTaskScreen} from './util.js';
 
@@ -77,11 +78,11 @@ export default class GameObject extends AbstractView {
 
   selectNextStep(gameOptions, gameForm) {
     if (!this.checkAnswer(this.task, gameOptions) && GameModel.state.lives === 1) {
-      GameModel.state.answers[this.number] = false;
+      GameModel.state.answers.push(false);
       this.showStatsScreen(gameForm);
     } else if (!this.checkAnswer(this.task, gameOptions)) {
       GameModel.state.lives--;
-      GameModel.state.answers[this.number] = false;
+      GameModel.state.answers.push(false);
       if (this.number === GameModel.state.count - 1) {
         this.showStatsScreen(gameForm);
       } else {
@@ -89,7 +90,7 @@ export default class GameObject extends AbstractView {
         changeTaskScreen(GameModel.state.levels[this.number + 1]);
       }
     } else {
-      GameModel.state.answers[this.number] = this.checkTime(GameModel.state.time);
+      GameModel.state.answers.push(this.checkTime(GameModel.state.time));
       if (this.number === GameModel.state.count - 1) {
         this.showStatsScreen(gameForm);
       } else {

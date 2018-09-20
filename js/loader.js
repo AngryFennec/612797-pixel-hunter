@@ -9,12 +9,6 @@ const checkStatus = (response) => {
     throw new Error(`${response.status}: ${response.statusText}`);
   }
   return response;
-  /*
-  if (response.ok) {
-    return response;
-  } else {
-    throw new Error(`${response.status}: ${response.statusText}`);
-  }*/
 };
 
 const toJSON = (res) => res.json();
@@ -33,10 +27,9 @@ export default class Loader {
       answers: [],
       lives: GameModel.state.lives
     };
-    for (let i = 0; i < GameModel.state.count; i++) {
-      dataToSend.answers.push(GameModel.state.answers[i]);
-    }
-
+    GameModel.state.answers.forEach((item) => {
+      dataToSend.answers.push(item);
+    });
     data = Object.assign({name}, data);
     const requestSettings = {
       body: JSON.stringify(dataToSend),

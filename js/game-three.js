@@ -53,33 +53,6 @@ export default class GameThree extends GameObject {
     return (k === j);
   }
 
-  selectNextStep(gameOptions, gameForm) {
-    if (!this.checkAnswer(this.task, gameOptions) && GameModel.state.lives === 1) {
-      GameModel.state.answers[this.number] = false;
-      gameForm.reset();
-      Application.showStats(GameModel.state);
-    } else if (!this.checkAnswer(this.task, gameOptions)) {
-      GameModel.state.lives--;
-      GameModel.state.answers[this.number] = false;
-      if (this.number === GameModel.state.count - 1) {
-        gameForm.reset();
-        Application.showStats(GameModel.state);
-      } else {
-        gameForm.reset();
-        changeTaskScreen(GameModel.state.levels[this.number + 1]);
-      }
-    } else {
-      GameModel.state.answers[this.number] = this.checkTime(GameModel.state.time);
-      if (this.number === GameModel.state.count - 1) {
-        gameForm.reset();
-        Application.showStats(GameModel.state);
-      } else {
-        gameForm.reset();
-        changeTaskScreen(GameModel.state.levels[this.number + 1]);
-      }
-    }
-  }
-
   bind() {
     const gameOptions = Array.prototype.slice.call(this.element.querySelectorAll(`.game__option`));
     const gameForm = this.element.querySelector(`.game__content`);

@@ -25,21 +25,9 @@ export default class GameModel {
   static resetState() {
     GameModel.state = Object.assign({}, GameModel.state, {
       lives: LIVES,
-      answers: {
-        0: ``,
-        1: ``,
-        2: ``,
-        3: ``,
-        4: ``,
-        5: ``,
-        6: ``,
-        7: ``,
-        8: ``,
-        9: ``
-      }
+      answers: []
     });
     resetInnerState();
-
   }
 
 

@@ -13,24 +13,24 @@ export default class StatsScreen extends AbstractView {
 
   getScoreTemplate(data, number) {
     let resultTemplate = ``;
+    const statsTemplate = `<ul class="stats">
+      <li class="stats__result stats__result--unknow"></li>
+      <li class="stats__result stats__result--unknown"></li>
+      <li class="stats__result stats__result--unknown"></li>
+      <li class="stats__result stats__result--unknown"></li>
+      <li class="stats__result stats__result--unknown"></li>
+      <li class="stats__result stats__result--unknown"></li>
+      <li class="stats__result stats__result--unknown"></li>
+      <li class="stats__result stats__result--unknown"></li>
+      <li class="stats__result stats__result--unknown"></li>
+      <li class="stats__result stats__result--unknown"></li>
+    </ul>`;
     if (data.answers[this.state.count - 1]) {
       resultTemplate = `<table class="result__table">
         <tr>
           <td class="result__number">${number}.</td>
-          <td colspan="2">
-          <ul class="stats">
-            <li class="stats__result stats__result--unknow"></li>
-            <li class="stats__result stats__result--unknown"></li>
-            <li class="stats__result stats__result--unknown"></li>
-            <li class="stats__result stats__result--unknown"></li>
-            <li class="stats__result stats__result--unknown"></li>
-            <li class="stats__result stats__result--unknown"></li>
-            <li class="stats__result stats__result--unknown"></li>
-            <li class="stats__result stats__result--unknown"></li>
-            <li class="stats__result stats__result--unknown"></li>
-            <li class="stats__result stats__result--unknown"></li>
-          </ul>
-          </td>
+          <td colspan="2">` + statsTemplate +
+          `</td>
           <td class="result__points">× 100</td>
           <td class="result__total result__total--usual">900</td>
         </tr>
@@ -63,20 +63,7 @@ export default class StatsScreen extends AbstractView {
       resultTemplate = `<table class="result__table">
         <tr>
           <td class="result__number">${number}.</td>
-          <td>
-            <ul class="stats">
-              <li class="stats__result stats__result--unknow"></li>
-              <li class="stats__result stats__result--unknown"></li>
-              <li class="stats__result stats__result--unknown"></li>
-              <li class="stats__result stats__result--unknown"></li>
-              <li class="stats__result stats__result--unknown"></li>
-              <li class="stats__result stats__result--unknown"></li>
-              <li class="stats__result stats__result--unknown"></li>
-              <li class="stats__result stats__result--unknown"></li>
-              <li class="stats__result stats__result--unknown"></li>
-              <li class="stats__result stats__result--unknown"></li>
-            </ul>
-          </td>
+          <td>` + statsTemplate + `</td>
           <td class="result__total"></td>
           <td class="result__total  result__total--final">fail</td>
         </tr>
@@ -115,24 +102,23 @@ export default class StatsScreen extends AbstractView {
     this.createNewStats(this.element, this.state);
     const ulElement = this.element.querySelector(`.stats`);
     if (!this.isFail(ulElement)) {
-      this.fillTotal(this.element);
-      this.fillTotalFinal(this.element);
-      this.fillFast(this.element.querySelector(`.result__fast`));
-      this.fillSlow(this.element.querySelector(`.result__slow`));
-      this.fillLives(this.element.querySelector(`.result__lives`));
+      this.fillData(this.element);
     }
+  }
+
+  fillData(element) {
+    this.fillTotal(element);
+    this.fillTotalFinal(element);
+    this.fillFast(element.querySelector(`.result__fast`));
+    this.fillSlow(element.querySelector(`.result__slow`));
+    this.fillLives(element.querySelector(`.result__lives`));
   }
 
   addResults(data) {
     let resultSection = this.element.querySelector(`.result`);
-    if (data) {
-      data.forEach((item, i) => resultSection.appendChild(this.createTableFromData(data[i], (i + 2))));
-      /*
-      for (let i = 0; i < data.length - 1; i++) {
-        let newData = this.createTableFromData(data[i], (i + 2));
-        resultSection.appendChild(newData);
-      }
-      */
+    if (data && data.length > 1) {
+      let dataSlice = data.slice(0, length-2);
+      dataSlice.forEach((item, i) => resultSection.appendChild(this.createTableFromData(data[i], (i + 2))));
     }
   }
 
@@ -141,11 +127,7 @@ export default class StatsScreen extends AbstractView {
     this.createNewStats(dataElement, data);
     const ulElement = dataElement.querySelector(`.stats`);
     if (!this.isFail(ulElement)) {
-      this.fillTotal(dataElement);
-      this.fillTotalFinal(dataElement);
-      this.fillFast(dataElement.querySelector(`.result__fast`));
-      this.fillSlow(dataElement.querySelector(`.result__slow`));
-      this.fillLives(dataElement.querySelector(`.result__lives`));
+      this.fillData(dataElement);
     }
     return dataElement;
   }
@@ -157,19 +139,29 @@ export default class StatsScreen extends AbstractView {
 
   createNewStats(element, data) {
     const liElements = Array.prototype.slice.call(element.querySelectorAll(`li.stats__result`));
-    for (let i = 0; i < liElements.length; i++) {
-      let newLi = liElements[i];
-      if (data.answers[i] === `correct`) {
-        this.changeStatsClassList(newLi, `correct`);
-      } else if (data.answers[i] === `slow`) {
-        this.changeStatsClassList(newLi, `slow`);
-      } else if (data.answers[i] === `fast`) {
-        this.changeStatsClassList(newLi, `fast`);
-      } else {
-        if (!(data.answers[i] === ``)) {
-          this.changeStatsClassList(newLi, `wrong`);
+    if (data.answers) {
+      liElements.forEach((item, i) => {
+        switch (data.answers[i]) {
+          case `correct`: {
+            this.changeStatsClassList(item, `correct`);
+            break;
+          }
+          case `slow`: {
+            this.changeStatsClassList(item, `slow`);
+            break;
+          }
+          case `fast`: {
+            this.changeStatsClassList(item, `fast`);
+            break;
+          }
+          default: {
+            if (!(data.answers[i] === ``)) {
+              this.changeStatsClassList(item, `wrong`);
+            }
+            break;
+          }
         }
-      }
+      });
     }
   }
 

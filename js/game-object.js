@@ -40,14 +40,6 @@ export default class GameObject extends AbstractView {
       } else {
         newLi.classList.add(`stats__result--` + GameModel.state.answers[i]);
       }
-      /*
-      } else if (GameModel.state.answers[i] === `correct`) {
-        newLi.classList.add(`stats__result--correct`);
-      } else if (GameModel.state.answers[i] === `slow`) {
-        newLi.classList.add(`stats__result--slow`);
-      } else if (GameModel.state.answers[i] === `fast`) {
-        newLi.classList.add(`stats__result--fast`);
-      }*/
       statsRow.appendChild(newLi);
     }
   }
@@ -80,5 +72,35 @@ export default class GameObject extends AbstractView {
       return `fast`;
     }
     return `correct`;
+  }
+
+
+  selectNextStep(gameOptions, gameForm) {
+    if (!this.checkAnswer(this.task, gameOptions) && GameModel.state.lives === 1) {
+      GameModel.state.answers[this.number] = false;
+      this.showStatsScreen(gameForm);
+    } else if (!this.checkAnswer(this.task, gameOptions)) {
+      GameModel.state.lives--;
+      GameModel.state.answers[this.number] = false;
+      if (this.number === GameModel.state.count - 1) {
+        this.showStatsScreen(gameForm);
+      } else {
+        gameForm.reset();
+        changeTaskScreen(GameModel.state.levels[this.number + 1]);
+      }
+    } else {
+      GameModel.state.answers[this.number] = this.checkTime(GameModel.state.time);
+      if (this.number === GameModel.state.count - 1) {
+        this.showStatsScreen(gameForm);
+      } else {
+        gameForm.reset();
+        changeTaskScreen(GameModel.state.levels[this.number + 1]);
+      }
+    }
+  }
+
+  showStatsScreen(gameForm) {
+    gameForm.reset();
+    Application.showStats(GameModel.state);
   }
 }

@@ -108,7 +108,7 @@ export default class StatsScreen extends AbstractView {
     let resultSection = this.element.querySelector(`.result`);
     if (data && data.length > 1) {
       let dataSlice = data.slice(0, length - 1);
-      dataSlice.forEach((item, i) => resultSection.appendChild(this.createTableFromData(data[i], (i + 2))));
+      dataSlice.forEach((item, i) => resultSection.appendChild(this.createTableFromData(item, (i + 2))));
     }
   }
 

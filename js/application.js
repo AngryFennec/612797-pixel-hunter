@@ -28,6 +28,9 @@ export default class Application {
   }
 
   static startGame() {
+    if (!GameModel.state || !GameModel.state.levels) {
+      throw new Error(`Tasks not found!`);
+    }
     changeTaskScreen(GameModel.state.levels[0]);
   }
 
